@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/categories"
+            android:title="@string/text_categories"
+            android:visible="true" />
+
+        <item
+            android:id="@+id/manage_patients"
+            android:title="@string/text_manage_patients"
+            android:visible="true" />
+
+        <item
+            android:id="@+id/add_new_patients"
+            android:title="@string/text_add_patient_problem"
+            android:visible="true" />
+
+        <item
+            android:id="@+id/change_pin"
+            android:title="@string/text_change_pin"
+            android:visible="true" />
+
+        <item
+            android:id="@+id/logout"
+            android:title="@string/text_logout"
+            android:visible="true" />
+
+    </group>
+</menu>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    tools:context=".Fragments.AddCategoriesFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/edit_first_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/round_edittext"
+            android:hint="@string/text_first_name"
+            android:padding="10dp" />
+
+        <EditText
+            android:id="@+id/edit_last_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/round_edittext"
+            android:hint="@string/text_last_name"
+            android:padding="10dp" />
+
+
+        <Spinner
+            android:id="@+id/spn_blood_group_edit"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="20dp"
+            android:entries="@array/blood_group"
+            android:background="@drawable/round_edittext"
+            android:theme="@style/ThemeSpinner"
+            android:visibility="visible" />
+
+        <Spinner
+            android:id="@+id/spn_status_edit"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/round_edittext"
+            android:entries="@array/status"
+            android:theme="@style/ThemeSpinner"
+            android:visibility="visible" />
+
+        <EditText
+            android:id="@+id/edit_date_of_birth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/round_edittext"
+            android:hint="@string/text_dateofbirth"
+            android:padding="10dp" />
+
+        <RadioGroup
+            android:id="@+id/rg_gender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <RadioButton
+                android:id="@+id/rb_male"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="male"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+
+            <RadioButton
+                android:id="@+id/rb_female"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="female"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+
+        </RadioGroup>
+
+
+        <Button
+            android:id="@+id/btn_update_patient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="50dp"
+            android:background="@drawable/rounded_celll"
+            android:elevation="@dimen/_10sdp"
+            android:text="@string/text_edit_patient"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

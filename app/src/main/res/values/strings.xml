@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">DemoApp</string>
+    <string name="text_login">Login</string>
+    <string name="text_pin">Enter Pin</string>
+    <string name="text_status">Status</string>
+    <string name="text_gender_name">Gender</string>
+    <string name="text_confirm">Confirm Pin</string>
+    <string name="text_last_name">Last Name</string>
+    <string name="text_first_name">First Name</string>
+    <string name="text_categories">Categories</string>
+    <string name="text_create_pin">Create Pin</string>
+    <string name="text_add_category">Add Category</string>
+    <string name="text_update_category">Update Category</string>
+    <string name="text_add_patient">Add Patient</string>
+    <string name="text_edit_patient">Update Patient</string>
+    <string name="text_generate_pin">Generate Pin</string>
+    <string name="text_generate_user">Create User</string>
+    <string name="text_category_name">Category Name</string>
+    <string name="text_dateofbirth">Date Of Birth</string>
+    <string name="text_manage_patients">Manage patients</string>
+    <string name="text_no_pin">Don\'t have the Pin to login</string>
+    <string name="text_add_patient_problem">Add patient problem</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="text_logout">Logout</string>
+    <string name="text_change_pin">Change Pin</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="text_created_date">Created Date</string>
+    <string name="text_filter">Filter</string>
+
+    <array name="blood_group">
+        <item name="select_text">Select Blood Group</item>
+        <item name="o_positive">O+</item>
+        <item name="o_negative">O-</item>
+        <item name="a_positive">A+</item>
+        <item name="a_negative">A-</item>
+        <item name="b_negative">B-</item>
+        <item name="b_positive">B+</item>
+        <item name="ab_positive">AB+</item>
+        <item name="ab_negative">AB-</item>
+    </array>
+
+
+    <array name="status">
+        <item name="select_text">Select Status</item>
+        <item name="active">Active</item>
+        <item name="inactive">Inactive</item>
+    </array>
+
+</resources>
