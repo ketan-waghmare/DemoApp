@@ -34,9 +34,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private long count = 0;
     private String patientId;
-    private EditText mobileNumber;
     private TextView tvCreatePin;
-    private Boolean isPresent = false;
+    private EditText edtMobileNumber;
     private DataBaseHelper dataBaseHelper;
     private SharedPreferences preferenceUser;
     private Context context = LoginActivity.this;
@@ -70,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btn_login);
         btnSubmit = findViewById(R.id.btn_submit);
         tvCreatePin = findViewById(R.id.tv_create_pin);
-        mobileNumber = findViewById(R.id.edt_mobile_number);
+        edtMobileNumber = findViewById(R.id.edt_mobile_number);
     }
 
     /**
@@ -80,7 +79,8 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                verifyUser();
+                if (validate())
+                    verifyUser();
             }
         });
 
@@ -92,6 +92,19 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private boolean validate() {
+        if(edtMobileNumber.getText().toString().length() <= 0){
+            edtMobileNumber.setFocusable(true);
+            edtMobileNumber.setError("Please Enter Mobile Number");
+            return false;
+        }else if(edtPin.getText().toString().length() <= 0){
+            edtPin.setFocusable(true);
+            edtPin.setError("Please Enter Pin");
+            return false;
+        }
+        return true;
+    }
+
     /**
      * check for the user is present in database or not
      * if present then move to next screen
@@ -99,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void verifyUser() {
         try {
-            verifyJsonArray = dataBaseHelper.verifyPin(mobileNumber.getText().toString(), edtPin.getText().toString());
+            verifyJsonArray = dataBaseHelper.verifyPin(edtMobileNumber.getText().toString(), edtPin.getText().toString());
 
             if (verifyJsonArray != null && verifyJsonArray.length() > 0) {
                 context.startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -107,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(context, "User not registred create user first", Toast.LENGTH_SHORT).show();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -122,6 +135,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * store the logged in patient id
+     *
      * @param preferenceName
      * @param key
      * @param value

@@ -129,15 +129,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (tag != null && tag.equals(CategoryFragment.class.getName())) {
             defaultFragment();
         } else if (tag != null && tag.equals(ProblemListingFragment.class.getName())) {
-            Utils.replaceFragment(context,new ProblemListingFragment());
+            getFragmentManager().popBackStack();
         }else if(tag != null && tag.equals(EditPatientFragment.class.getName())){
-            Utils.replaceFragment(context,new PatientListingFragment());
+            getFragmentManager().popBackStack();
         }else if(tag != null && tag.equals(PatientListingFragment.class.getName())){
-            Utils.replaceFragment(context,new PatientListingFragment());
+            getFragmentManager().popBackStack();
         }else if(tag != null && tag.equals(ChangePinFragment.class.getName())){
-            Utils.replaceFragment(context,new CategoryFragment());
+            getFragmentManager().popBackStack();
         }else if(tag != null && tag.equals(ProblemListingFragment.class.getName())){
-            Utils.replaceFragment(context,new ProblemListingFragment());
+            getFragmentManager().popBackStack();
         } else if (tag != null && tag.equals(CategoryFragment.class.getName())) {
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
@@ -153,11 +153,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .show();
         } else {
             if (fragment instanceof CategoryFragment) {
-                for (int i = 0; i < count; ++i) {
-                    getFragmentManager().popBackStackImmediate();
-                }
-                getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                return;
+                new AlertDialog.Builder(this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Exit App")
+                        .setMessage("Do you want to exit? ")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finishAffinity();
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
             } else {
                 if (count == 1) {
                     new AlertDialog.Builder(this)
