@@ -11,15 +11,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * created by ketan 29-9-2020
+ */
 public class DataBaseHelper {
+
     public Context context;
     private SQLiteHelper sqLiteHelper;
     public static SQLiteDatabase sqLiteDatabase;
-
-    private JSONArray jArray;
-    private JSONObject json_data;
-    private boolean isExist = false;
-    private String str_column_name;
 
     public DataBaseHelper(Context context) {
         this.context = context;
@@ -28,6 +27,10 @@ public class DataBaseHelper {
         sqLiteDatabase = sqLiteHelper.getReadableDatabase();
     }
 
+    /**
+     * store the data to the database
+     * insertion operation is performed using this function
+     */
     public Long saveToLocalTable(String table, ContentValues contentValues) {
         long count = 0;
         try {
@@ -47,41 +50,10 @@ public class DataBaseHelper {
         return count;
     }
 
-    public void updatePatientInfo(String table, ContentValues contentValues, String patient_id) {
-        try {
-            long count1 = sqLiteDatabase.update(table, contentValues, "id ='" + patient_id + "' ", null);
-
-            if (count1 != -1) {
-                Log.v("DataHelp", "Update " + table + " Details Successfully");
-            } else {
-                Log.v("DataHelp", "Update " + table + " Details Fail");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void updateParametersInfo(String table, ContentValues contentValues, String parameter_id) {
-        try {
-            long count1 = sqLiteDatabase.update(table, contentValues, "parameter_id ='" + parameter_id + "' ", null);
-
-            if (count1 != -1) {
-                Log.v("DataHelpUpdate", "Update " + table + " Details Successfully");
-            } else {
-                Log.v("DataHelpUpdate", "Update " + table + " Details Fail");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void deleteData(String tbl_name, String ids) {
-        sqLiteDatabase.execSQL("delete from " + tbl_name + " WHERE  id =" + ids);
-        Log.e("deleteQuery"," = "+"delete from " + tbl_name + " WHERE  id =" + ids);
-    }
-
+    /**
+     * this function is used to get the category list from the database
+     * returns json array of category list
+     */
     public JSONArray getCategoriesFromDB() {
         Cursor cursor = null;
         JSONArray jArray = new JSONArray();
@@ -106,6 +78,10 @@ public class DataBaseHelper {
         return jArray;
     }
 
+    /**
+     * this function is used to get the patient list from the database
+     * returns json array of patient list
+     */
     public JSONArray getPatientListFromDB() {
         Cursor cursor = null;
         JSONArray jArray = new JSONArray();
@@ -130,12 +106,16 @@ public class DataBaseHelper {
         return jArray;
     }
 
+    /**
+     * this function is used to verify that user is exist in the databse or not
+     * if user exists returns json array of user information
+     * else returns the empty array of the user information
+     */
     public JSONArray verifyPin(String mobile_number, String pin) {
         Cursor cursor = null;
         JSONArray jArray = new JSONArray();
 
         cursor = sqLiteDatabase.rawQuery("SELECT * from `" + DataBaseConstants.TableNames.TBL_PATIENTS + "` Where is_deleted = 'N' ANd " + DataBaseConstants.Constants_TBL_PATIENTS.MOBILE_NUMBER + " ='" + mobile_number + "' AND pin = '" + pin + "' ORDER BY id ASC LIMIT 1", null);
-        Log.e("verifypin_query", "SELECT * from `" + DataBaseConstants.TableNames.TBL_PATIENTS + "` Where is_deleted = 'N' ANd " + DataBaseConstants.Constants_TBL_PATIENTS.MOBILE_NUMBER + " ='" + mobile_number + "' AND pin = '" + pin + "' ORDER BY id ACS LIMIT 1");
 
         JSONObject json = null;
 
@@ -155,6 +135,11 @@ public class DataBaseHelper {
         return jArray;
     }
 
+    /**
+     * this function is used to update the data of database
+     * we can update any tables data using this function
+     * just pass the parameter tablename values to update and id of the record to update
+     */
     public long updateTableData(String table, ContentValues contentValues, String id) {
         long count1 = 0;
         try {
@@ -173,13 +158,15 @@ public class DataBaseHelper {
         return count1;
     }
 
-
+    /**
+     * this function is used to get the data of category by passing id of the category
+     * returns the single record of the category
+     */
     public JSONArray getCategoryByID(String id){
         Cursor cursor = null;
         JSONArray jArray = new JSONArray();
 
         cursor = sqLiteDatabase.rawQuery("SELECT * from `" + DataBaseConstants.TableNames.TBL_CATEGORIES + "` Where is_deleted = 'N' ANd " + DataBaseConstants.Constants_TBL_CATEGORIES.ID + " ='" + id + "'", null);
-        Log.e("getCategoryToEdit_query", "SELECT * from `" + DataBaseConstants.TableNames.TBL_CATEGORIES + "` Where is_deleted = 'N' ANd " + DataBaseConstants.Constants_TBL_PATIENTS.ID + " ='" + id + "'");
 
         JSONObject json = null;
 
@@ -199,6 +186,9 @@ public class DataBaseHelper {
         return jArray;
     }
 
+    /**
+     * this function returns the single record of patient against the selected id
+     */
     public JSONArray getPatientByID(String id){
         Cursor cursor = null;
         JSONArray jArray = new JSONArray();
@@ -224,12 +214,15 @@ public class DataBaseHelper {
         return jArray;
     }
 
+    /**
+     * this function returns json array of patient problems
+     */
     public JSONArray getProblemFromDB() {
         Cursor cursor = null;
         JSONArray jArray = new JSONArray();
 
         cursor = sqLiteDatabase.rawQuery("SELECT * from `" + DataBaseConstants.TableNames.TBL_PATIENT_PROBLEMS + "` Where is_deleted = 'N'", null);
-        Log.e("query_log","SELECT * from `" + DataBaseConstants.TableNames.TBL_PATIENT_PROBLEMS + "` Where is_deleted = 'N'", null);
+
         JSONObject json = null;
 
         if (cursor.getCount() != 0) {

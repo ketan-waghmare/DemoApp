@@ -21,8 +21,12 @@ import com.example.demoapp.Utils.Utils;
 
 import org.json.JSONArray;
 
+/**
+ * created by ketan 26-9-2020
+ */
 public class LoginActivity extends AppCompatActivity {
 
+    //region variables
     private EditText edtPin;
     private Button btnLogin;
     private Button btnSubmit;
@@ -36,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     private DataBaseHelper dataBaseHelper;
     private SharedPreferences preferenceUser;
     private Context context = LoginActivity.this;
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +52,9 @@ public class LoginActivity extends AppCompatActivity {
         setupEvents();
     }
 
+    /**
+     * initialize database helper object and shared preference
+     */
     private void initDB() {
         dataBaseHelper = new DataBaseHelper(this);
 
@@ -54,6 +62,9 @@ public class LoginActivity extends AppCompatActivity {
         preferenceUser = getSharedPreferences(Utils.PREFERENCE_USER, MODE_PRIVATE);
     }
 
+    /**
+     * set up UI elements here of the screen
+     */
     private void setupUI() {
         edtPin = findViewById(R.id.edt_pin);
         btnLogin = findViewById(R.id.btn_login);
@@ -62,6 +73,9 @@ public class LoginActivity extends AppCompatActivity {
         mobileNumber = findViewById(R.id.edt_mobile_number);
     }
 
+    /**
+     * set all the click events
+     */
     private void setupEvents() {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,16 +92,20 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * check for the user is present in database or not
+     * if present then move to next screen
+     * else show the message user is not register
+     */
     private void verifyUser() {
         try {
             verifyJsonArray = dataBaseHelper.verifyPin(mobileNumber.getText().toString(), edtPin.getText().toString());
 
-            Log.e("verifyJsonArray_Log", ":" + verifyJsonArray);
             if (verifyJsonArray != null && verifyJsonArray.length() > 0) {
                 context.startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 writeToSharedPreference(Utils.PREFERENCE_USER, DataBaseConstants.Constants_TBL_PATIENTS.ID, verifyJsonArray.getJSONObject(0).getString(DataBaseConstants.Constants_TBL_PATIENTS.ID));
             } else {
-                Toast.makeText(context, "User not found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "User not registred create user first", Toast.LENGTH_SHORT).show();
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -102,6 +120,12 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * store the logged in patient id
+     * @param preferenceName
+     * @param key
+     * @param value
+     */
     private void writeToSharedPreference(String preferenceName, String key, String value) {
         SharedPreferences sharedPreference = getSharedPreferences(preferenceName, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreference.edit();

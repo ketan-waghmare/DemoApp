@@ -32,14 +32,19 @@ import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONArray;
 
+/**
+ * created by ketan 26-9-2020
+ */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    //region variables
     private Toolbar toolbar;
     private DrawerLayout drawer;
     public static TextView tvHeader;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private Context context = MainActivity.this;
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,11 +106,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    /**
+     * handle the logout action
+     */
     private void doLogout() {
         context.startActivity(new Intent(MainActivity.this,LoginActivity.class));
         finishAffinity();
     }
 
+    /**
+     * handle the backpress action
+     * show the dialog box for exit
+     */
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -167,6 +179,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    /**
+     * get the current fragment from the stack
+     * @return
+     */
     private String getCurrentFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFragment = null;

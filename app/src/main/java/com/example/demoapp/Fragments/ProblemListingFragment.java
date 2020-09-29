@@ -29,11 +29,13 @@ import java.util.ArrayList;
  */
 public class ProblemListingFragment extends Fragment{
 
+    //region variables
     private JSONArray problemArray;
     private ProblemListAdapter adapter;
     private RecyclerView rvProblemsList;
     private ImageView ivAddPatientProblem;
     private DataBaseHelper dataBaseHelper;
+    //endregion
 
     public static ProblemListingFragment newInstance(String param1, String param2) {
         ProblemListingFragment fragment = new ProblemListingFragment();
@@ -58,6 +60,9 @@ public class ProblemListingFragment extends Fragment{
         return rootView;
     }
 
+    /**
+     * initialize database helper object
+     */
     private void initDB() {
         dataBaseHelper = new DataBaseHelper(getActivity());
     }
@@ -73,12 +78,19 @@ public class ProblemListingFragment extends Fragment{
         }
     }
 
+    /**
+     * set up all the UI elements of the screen
+     * @param rootView
+     */
     private void setupUI(View rootView) {
         MainActivity.tvHeader.setText("Problems");
         rvProblemsList = rootView.findViewById(R.id.rv_problem);
         ivAddPatientProblem = rootView.findViewById(R.id.iv_add_problem);
     }
 
+    /**
+     * set all the click events of the screen
+     */
     private void setupClickEvents() {
         ivAddPatientProblem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +100,10 @@ public class ProblemListingFragment extends Fragment{
         });
     }
 
+    /**
+     * set the list of the problems added to the database
+     * @param dataList
+     */
     private void setProblemListAdapter(JSONArray dataList) {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false);
         rvProblemsList.setLayoutManager(gridLayoutManager);

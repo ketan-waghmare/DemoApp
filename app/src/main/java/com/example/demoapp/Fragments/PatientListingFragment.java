@@ -29,10 +29,11 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 
 /**
- * created by ketan 24-9-2020
+ * created by ketan 29-9-2020
  */
 public class PatientListingFragment extends Fragment implements RvClickListener {
 
+    //region variables
     private Button btnFilter;
     private EditText edtFirstName;
     private JSONArray patientArray;
@@ -44,6 +45,7 @@ public class PatientListingFragment extends Fragment implements RvClickListener 
     private Fragment fragment = null;
     private PatientListAdapter adapter;
     private DataBaseHelper dataBaseHelper;
+    //endregion
 
     public static PatientListingFragment newInstance(String param1, String param2) {
         PatientListingFragment fragment = new PatientListingFragment();
@@ -68,10 +70,18 @@ public class PatientListingFragment extends Fragment implements RvClickListener 
         return rootView;
     }
 
+    /**
+     * initialize database helper object
+     */
     private void initDB() {
         dataBaseHelper = new DataBaseHelper(getActivity());
     }
 
+    /**
+     * get patient list from the database
+     * set the patient list to recyclerview
+     * if list is empty show no patient found message to user
+     */
     private void getPatientListFromDB() {
         patientArray = dataBaseHelper.getPatientListFromDB();
         if(patientArray != null && patientArray.length() > 0){
@@ -83,6 +93,10 @@ public class PatientListingFragment extends Fragment implements RvClickListener 
         }
     }
 
+    /**
+     * set all the UI elements of the screen here
+     * @param rootView
+     */
     private void setupUI(View rootView) {
         MainActivity.tvHeader.setText("Patients");
         btnFilter = rootView.findViewById(R.id.btn_filter);
@@ -92,6 +106,9 @@ public class PatientListingFragment extends Fragment implements RvClickListener 
         ivAddNewPatient = rootView.findViewById(R.id.iv_add_new_patient);
     }
 
+    /**
+     * set up all the click events of the screen
+     */
     private void setupClickEvents() {
         btnFilter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,14 +124,25 @@ public class PatientListingFragment extends Fragment implements RvClickListener 
         });
     }
 
+    /**
+     * filter the list of patients as per user input
+     */
     private void filterPatients() {
 
     }
 
+    /**
+     * move to add new patient screen
+     */
     private void addNewPatient() {
         Utils.replaceFragment(getActivity(),new AddPatientFragment());
     }
 
+    /**
+     * set list of the patient received from database
+     * set the list click listener
+     * @param dataList
+     */
     private void setPatientListAdapter(JSONArray dataList) {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false);
         rvPatients.setLayoutManager(gridLayoutManager);
@@ -123,6 +151,12 @@ public class PatientListingFragment extends Fragment implements RvClickListener 
         adapter.setRvClickListener(this);
     }
 
+    /**
+     * handle the list item click listener
+     * edit and remove
+     * if user click edit icon move to edit patient screen
+     * if user click delete icon delete the patient and update list
+     */
     @Override
     public void rv_click(int position, int value, String key) {
         if(key.equals("edit")){
@@ -132,6 +166,11 @@ public class PatientListingFragment extends Fragment implements RvClickListener 
         }
     }
 
+    /**
+     * move to edit patient screen
+     * set args id in bundle to send to edit patient screen
+     * @param position
+     */
     private void editPatient(int position) {
         try{
             fragment = new EditPatientFragment();
@@ -145,6 +184,14 @@ public class PatientListingFragment extends Fragment implements RvClickListener 
         }
     }
 
+    /**
+     * remove the patient from database and update the patient list
+     * here we are not deleting patient directly
+     * we are soft deleting the patients using is_deleted column
+     * if is_delete contains Y then it is deleted
+     * if is_delete contains N it is present in database
+     * @param position
+     */
     private void removePatient(int position) {
         try {
             ContentValues contentValues = new ContentValues();

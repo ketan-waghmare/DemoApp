@@ -4,21 +4,32 @@ package com.example.demoapp.SQLiteDatabase;
  * Class Name        :  <b>DataBaseConstants.java<b/>
  * Purpose           :  DataBaseConstants is class related of constants.
  * Developed By      :  <b>@ketan waghmare</b>
- * Created Date      :  <b>24-08-2020</b>
+ * Created Date      :  <b>29-08-2020</b>
  */
 
-
+/**
+ * created by ketan 29-9-2020
+ */
 public class DataBaseConstants {
 
+    /**
+     * datebase name and database version
+     */
     public static final String DATABASE_NAME = "demo_database";
     public static final int DATABASE_VERSION = 1;
 
+    /**
+     * table name constants
+     */
     public static class TableNames {
         public static final String TBL_PATIENTS = "patients";
         public static final String TBL_CATEGORIES = "categories";
         public static final String TBL_PATIENT_PROBLEMS = "patient_problems";
     }
 
+    /**
+     * constants for table patients
+     */
     public static class Constants_TBL_PATIENTS {
         public static final String ID = "id";
         public static final String PIN = "pin";
@@ -33,6 +44,9 @@ public class DataBaseConstants {
         public static final String DATE_OF_BIRTH = "date_of_birth";
     }
 
+    /**
+     * constants for table category
+     */
     public static class Constants_TBL_CATEGORIES {
         public static final String ID = "id";
         public static final String NAME = "name";
@@ -41,6 +55,9 @@ public class DataBaseConstants {
         public static final String CREATE_DATE = "create_date";
     }
 
+    /**
+     * constants for table patient problems
+     */
     public static class Constants_TBL_PATIENT_PROBLEMS {
         public static final String ID = "id";
         public static final String STATUS = "status";

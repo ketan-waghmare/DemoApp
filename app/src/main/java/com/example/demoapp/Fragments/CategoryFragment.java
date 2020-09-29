@@ -11,6 +11,7 @@ import com.example.demoapp.Interfaces.RvClickListener;
 import com.example.demoapp.Adapters.CategoryListAdapter;
 import com.example.demoapp.SQLiteDatabase.DataBaseConstants;
 import com.example.demoapp.SQLiteDatabase.DataBaseHelper;
+import com.example.demoapp.Utils.Utils;
 
 import android.widget.Toast;
 import android.view.ViewGroup;
@@ -24,10 +25,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import org.json.JSONArray;
 
 /**
- * created by ketan 23-9-2020
+ * created by ketan 26-9-2020
  */
 public class CategoryFragment extends Fragment implements RvClickListener {
 
+    //region variables
     private JSONArray jsonArray;
     private String categoryList = "";
     private Fragment fragment = null;
@@ -35,6 +37,7 @@ public class CategoryFragment extends Fragment implements RvClickListener {
     private ImageView ivAddNewCategory;
     private CategoryListAdapter adapter;
     private DataBaseHelper dataBaseHelper;
+    //endregion
 
     public static CategoryFragment newInstance() {
         CategoryFragment fragment = new CategoryFragment();
@@ -59,11 +62,16 @@ public class CategoryFragment extends Fragment implements RvClickListener {
         return rootView;
     }
 
-
+    /**
+     * initialize database helper object
+     */
     private void initDB() {
         dataBaseHelper = new DataBaseHelper(getActivity());
     }
 
+    /**
+     * get category list from the database
+     */
     private void getCategoryList() {
         jsonArray = dataBaseHelper.getCategoriesFromDB();
         if (jsonArray != null && jsonArray.length() > 0) {
@@ -77,7 +85,6 @@ public class CategoryFragment extends Fragment implements RvClickListener {
 
     /**
      * set all the ui elements here
-     *
      * @param rootView
      */
     private void setupUI(View rootView) {
@@ -100,7 +107,6 @@ public class CategoryFragment extends Fragment implements RvClickListener {
 
     /**
      * set category list adapter for showing the category list
-     *
      * @param dataList
      */
     private void setupCategoryListAdapter(JSONArray dataList) {
@@ -116,14 +122,11 @@ public class CategoryFragment extends Fragment implements RvClickListener {
      * open add category page
      */
     private void addNewCategory() {
-        fragment = new AddCategoriesFragment();
-        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_right_in, R.anim.slide_left_out,
-                R.anim.slide_left_in, R.anim.slide_right_out).replace(R.id.container, fragment).addToBackStack(fragment.getClass().getName()).commit();
+        Utils.replaceFragment(getActivity(),new AddCategoriesFragment());
     }
 
     /**
      * handle the click events of the screen
-     *
      * @param position
      * @param value
      * @param key

@@ -3,25 +3,18 @@ package com.example.demoapp.Adapters;
 import android.view.View;
 import android.view.ViewGroup;
 import android.content.Context;
-import android.view.LayoutInflater;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.demoapp.Interfaces.RvClickListener;
-import com.example.demoapp.Model.CategoryModel;
-import com.example.demoapp.R;
-import com.example.demoapp.SQLiteDatabase.DataBaseConstants;
-import com.google.gson.JsonArray;
+import android.widget.ImageView;
+import android.view.LayoutInflater;
 
 import org.json.JSONArray;
-import org.json.JSONException;
+import com.example.demoapp.R;
+import androidx.recyclerview.widget.RecyclerView;
+import com.example.demoapp.Interfaces.RvClickListener;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
+/**
+ * created by ketan 29-9-2020
+ */
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.ViewHolder> {
 
     View itemView;

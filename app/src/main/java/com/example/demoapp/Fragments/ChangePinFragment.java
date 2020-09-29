@@ -21,16 +21,18 @@ import com.example.demoapp.SQLiteDatabase.DataBaseHelper;
 import com.example.demoapp.Utils.Utils;
 
 /**
- *created by ketan 24-9-2020
+ *created by ketan 26-9-2020
  */
 public class ChangePinFragment extends Fragment {
 
+    //region variables
     private EditText edtPin;
     private Button btnChagnePin;
     private EditText edtConfirmPin;
 
     private DataBaseHelper dataBaseHelper;
     private SharedPreferences preferences;
+    //endregion
 
     public ChangePinFragment() {
         // Required empty public constructor

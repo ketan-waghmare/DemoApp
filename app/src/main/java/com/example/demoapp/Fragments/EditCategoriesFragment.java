@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.demoapp.Activity.MainActivity;
 import com.example.demoapp.R;
@@ -25,16 +26,18 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 
 /**
- * created by ketan 23-9-2020
+ * created by ketan 26-9-2020
  */
 public class EditCategoriesFragment extends Fragment {
 
+    //region variables
     private Spinner spnStatus;
     private String categoryId;
     private EditText edtCategoryName;
     private Button btnUpdateCategory;
     private ArrayList<String> statusList;
     private DataBaseHelper dataBaseHelper;
+    //endregion
 
     public static EditCategoriesFragment newInstance(String param1, String param2) {
         EditCategoriesFragment fragment = new EditCategoriesFragment();
@@ -61,6 +64,9 @@ public class EditCategoriesFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * set spinner adapter of status
+     */
     private void setSpinnerAdapter() {
         statusList = new ArrayList<>();
         statusList.add("Select Status");
@@ -73,16 +79,27 @@ public class EditCategoriesFragment extends Fragment {
         spnStatus.setAdapter(dataAdapter);
     }
 
+    /**
+     * initialize database helper object
+     */
     private void initDB() {
         dataBaseHelper = new DataBaseHelper(getActivity());
     }
 
+    /**
+     * get data received from bundle from previous fragment
+     * set the data of category by using received id
+     */
     private void getReceivedBundle() {
         categoryId = getArguments().getString("id");
 
         setCategoryData();
     }
 
+    /**
+     * set category data by id
+     * id received from bundle
+     */
     private void setCategoryData() {
         try {
             JSONArray categoryArray = dataBaseHelper.getCategoryByID(categoryId);
@@ -94,6 +111,10 @@ public class EditCategoriesFragment extends Fragment {
         }
     }
 
+    /**
+     * set up all the UI elements of the screen
+     * @param rootView
+     */
     private void setupUI(View rootView) {
         MainActivity.tvHeader.setText("Edit Categories");
         spnStatus = rootView.findViewById(R.id.spn_status_category_edit);
@@ -101,15 +122,38 @@ public class EditCategoriesFragment extends Fragment {
         btnUpdateCategory = rootView.findViewById(R.id.btn_update_category);
     }
 
+    /**
+     * set up all the click events of the screen
+     */
     private void setupAllClickEvents() {
         btnUpdateCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(validate())
                 updateCategory();
             }
         });
     }
 
+    /**
+     * validate user input
+     * @return
+     */
+    private boolean validate() {
+        if(edtCategoryName.getText().toString().length() <= 0){
+            edtCategoryName.setError("Please Enter Category Name");
+            return false;
+        }else if(spnStatus.getSelectedItemPosition() == 0){
+            Toast.makeText(getActivity(), "Please Select Status", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * update the category for the received id
+     * show category list screen
+     */
     private void updateCategory() {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DataBaseConstants.Constants_TBL_CATEGORIES.NAME,edtCategoryName.getText().toString());
@@ -119,6 +163,9 @@ public class EditCategoriesFragment extends Fragment {
         showCategoryList();
     }
 
+    /**
+     * move to category list screen
+     */
     private void showCategoryList() {
         Utils.replaceFragment(getActivity(),new CategoryFragment());
     }

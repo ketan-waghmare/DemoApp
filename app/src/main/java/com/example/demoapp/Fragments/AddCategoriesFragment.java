@@ -11,21 +11,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.demoapp.Activity.MainActivity;
-import com.example.demoapp.Model.CategoryModel;
 import com.example.demoapp.R;
 import com.example.demoapp.SQLiteDatabase.DataBaseConstants;
 import com.example.demoapp.SQLiteDatabase.DataBaseHelper;
 import com.example.demoapp.Utils.Utils;
 
-import org.json.JSONArray;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-
 /**
- * created by ketan 23-9-2020
+ * created by ketan 26-9-2020
  */
 public class AddCategoriesFragment extends Fragment {
 
@@ -33,7 +28,6 @@ public class AddCategoriesFragment extends Fragment {
     private Button btnAddCategory;
     private EditText edtCategoryName;
     private DataBaseHelper dataBaseHelper;
-    private ArrayList<CategoryModel> dataList;
 
     public static AddCategoriesFragment newInstance() {
         AddCategoriesFragment fragment = new AddCategoriesFragment();
@@ -57,10 +51,17 @@ public class AddCategoriesFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * initialize the database helper object
+     */
     private void initDB() {
         dataBaseHelper = new DataBaseHelper(getActivity()); // initalization of database helper object
     }
 
+    /**
+     * set all the UI elements of the screen
+     * @param rootView
+     */
     private void setupUI(View rootView) {
         MainActivity.tvHeader.setText("Add Categories");
         spnStatus = rootView.findViewById(R.id.spn_status_category);
@@ -68,15 +69,37 @@ public class AddCategoriesFragment extends Fragment {
         edtCategoryName = rootView.findViewById(R.id.edt_category_name);
     }
 
+    /**
+     * set click events of the screen
+     */
     private void setupClickEvents() {
         btnAddCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(validate())
                 addNewCategory();
             }
         });
     }
 
+    /**
+     * set validation for user input
+     * @return
+     */
+    private boolean validate() {
+        if(edtCategoryName.getText().toString().length() <= 0){
+            edtCategoryName.setError("Please Enter the Category Name");
+            return false;
+        }else if(spnStatus.getSelectedItemPosition() == 0){
+            Toast.makeText(getActivity(), "Please Select Status", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * add new category to the database
+     */
     private void addNewCategory() {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DataBaseConstants.Constants_TBL_CATEGORIES.IS_DELETED,"N");
@@ -86,12 +109,6 @@ public class AddCategoriesFragment extends Fragment {
 
         dataBaseHelper.saveToLocalTable(DataBaseConstants.TableNames.TBL_CATEGORIES,contentValues);
 
-        /*
-            after adding the data to the database we have to clear the existing fields
-            so for that we are doing the following things
-         */
-        spnStatus.setSelection(0);
-        edtCategoryName.setText("");
         gotoCategoriesListPage();
 
     }

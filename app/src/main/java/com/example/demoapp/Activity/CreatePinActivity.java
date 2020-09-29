@@ -22,8 +22,12 @@ import com.example.demoapp.Utils.Utils;
 
 import java.net.Inet4Address;
 
+/**
+ * created by ketan 26-9-2020
+ */
 public class CreatePinActivity extends AppCompatActivity {
 
+    //region variable
     private Spinner spnStatus;
     private RadioButton rbMale;
     private RadioGroup rgGender;
@@ -41,6 +45,7 @@ public class CreatePinActivity extends AppCompatActivity {
     private int selectedGenderId;
     private DataBaseHelper dataBaseHelper;
     private Context context = CreatePinActivity.this;
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +57,9 @@ public class CreatePinActivity extends AppCompatActivity {
         setupClickEvents();
     }
 
+    /**
+     * initialize database helper object
+     */
     private void initDB() {
         dataBaseHelper = new DataBaseHelper(this);
     }
@@ -81,9 +89,10 @@ public class CreatePinActivity extends AppCompatActivity {
         btnCreateUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (edtEnterPin.getText().toString().equals(edtConfirmPin.getText().toString()))
-                    createNewUser();
-                else
+                if (edtEnterPin.getText().toString().equals(edtConfirmPin.getText().toString())) {
+                    if (validate())
+                        createNewUser();
+                } else
                     Toast.makeText(CreatePinActivity.this, "pin must be same", Toast.LENGTH_SHORT).show();
             }
         });
@@ -98,12 +107,55 @@ public class CreatePinActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * validation for empty text
+     * check for entered text by user if text is empty
+     * then show error message to user
+     * else return true
+     * @return
+     */
+    private boolean validate() {
+        if(edtMobileNumber.getText().toString().length() <= 0){
+            edtMobileNumber.setError("Please Enter Mobile Number");
+            return false;
+        }else if(edtFirstName.getText().toString().length() <= 0){
+            edtFirstName.setError("Please Enter Mobile Number");
+            return false;
+        }else if(edtLastName.getText().toString().length() <= 0){
+            edtLastName.setError("Please Enter Mobile Number");
+            return false;
+        }else if(edtDateOfBirth.getText().toString().length() <= 0){
+            edtDateOfBirth.setError("Please Enter Mobile Number");
+            return false;
+        }else if(edtEnterPin.getText().toString().length() <= 0){
+            edtEnterPin.setError("Please Enter Mobile Number");
+            return false;
+        }else if(edtConfirmPin.getText().toString().length() <= 0){
+            edtConfirmPin.setError("Please Enter Mobile Number");
+            return false;
+        }else if(spnStatus.getSelectedItemPosition() == 0){
+            Toast.makeText(context, "Please select status", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if(spnBloodGroup.getSelectedItemPosition() == 0){
+            Toast.makeText(context, "Please Select Blood Group", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * get the selected gender
+     * @return
+     */
     private String getSelectedGender() {
         int radioButtonID = rgGender.getCheckedRadioButtonId();
         RadioButton radioButton = rgGender.findViewById(radioButtonID);
         return radioButton.getText().toString();
     }
 
+    /**
+     * create a new user and insert the data into database
+     */
     private void createNewUser() {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DataBaseConstants.Constants_TBL_PATIENTS.GENDER, getSelectedGender());

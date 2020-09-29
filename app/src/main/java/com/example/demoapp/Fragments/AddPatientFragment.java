@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.demoapp.Activity.MainActivity;
 import com.example.demoapp.R;
@@ -66,17 +67,24 @@ public class AddPatientFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_add_patient, container, false);
 
+        initDB();
         setupUI(rootView);
-        initDatabase();
         setupClickEvents(rootView);
         return rootView;
     }
 
-    private void initDatabase() {
+    /**
+     * initialize database helper object
+     */
+    private void initDB() {
         dataBaseHelper = new DataBaseHelper(getActivity());
     }
 
 
+    /**
+     * set up all the UI elements of the screen
+     * @param rootView
+     */
     private void setupUI(View rootView) {
         MainActivity.tvHeader.setText("Add Patient");
         rbMale = rootView.findViewById(R.id.rd_male);
@@ -98,6 +106,7 @@ public class AddPatientFragment extends Fragment {
      */
     private void setupClickEvents(View rootView) {
         btnAddPatient.setOnClickListener(view -> {
+            if(validate())
             addNewPatient();
         });
 
@@ -111,6 +120,39 @@ public class AddPatientFragment extends Fragment {
         });
     }
 
+    /**
+     * validation for user input
+     * @return
+     */
+    private boolean validate() {
+        if(edtMobileNumber.getText().toString().length() <= 0){
+            edtMobileNumber.setError("Please Enter Mobile Number");
+            return false;
+        }else if(edtFirstName.getText().toString().length() <= 0){
+            edtFirstName.setError("Please Enter Mobile Number");
+            return false;
+        }else if(edtLastName.getText().toString().length() <= 0){
+            edtLastName.setError("Please Enter Mobile Number");
+            return false;
+        }else if(edtDOB.getText().toString().length() <= 0){
+            edtDOB.setError("Please Enter Mobile Number");
+            return false;
+        }else if(edtPinPatient.getText().toString().length() <= 0){
+            edtPinPatient.setError("Please Enter Mobile Number");
+            return false;
+        }else if(spnStatus.getSelectedItemPosition() == 0){
+            Toast.makeText(getActivity(), "Please select status", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if(spnBloodGroup.getSelectedItemPosition() == 0){
+            Toast.makeText(getActivity(), "Please Select Blood Group", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * add new patient to the database
+     */
     private void addNewPatient() {
         try {
             ContentValues contentValues = new ContentValues();
@@ -132,12 +174,19 @@ public class AddPatientFragment extends Fragment {
         }
     }
 
+    /**
+     * move to the patient listing screen
+     */
     private void gotoPatientListing() {
        Fragment fragment = new PatientListingFragment();
         getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_right_in, R.anim.slide_left_out,
                 R.anim.slide_left_in, R.anim.slide_right_out).replace(R.id.container, fragment).addToBackStack(fragment.getClass().getName()).commit();
     }
 
+    /**
+     * get user selected gender
+     * @return
+     */
     private String getSelectedGender(){
         int radioButtonID = rgGender.getCheckedRadioButtonId();
         RadioButton radioButton = rgGender.findViewById(radioButtonID);

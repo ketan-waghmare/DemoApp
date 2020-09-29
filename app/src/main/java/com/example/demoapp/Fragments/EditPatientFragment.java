@@ -27,12 +27,11 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link EditPatientFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * created by ketan 29-9-2020
  */
 public class EditPatientFragment extends Fragment {
 
+    //region variables
     private EditText edtDOB;
     private EditText edtPin;
     private Spinner spnStatus;
@@ -50,6 +49,7 @@ public class EditPatientFragment extends Fragment {
     private ArrayList<String> statusList;
     private DataBaseHelper dataBaseHelper;
     private ArrayList<String> bloodGroupList;
+    //endregion
 
     public static EditPatientFragment newInstance(String param1, String param2) {
         EditPatientFragment fragment = new EditPatientFragment();
@@ -75,21 +75,29 @@ public class EditPatientFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * initialize database helper object
+     */
     private void initDB() {
         dataBaseHelper = new DataBaseHelper(getActivity());
     }
 
-
+    /**
+     * get patient id received from the previous fragment
+     * set the patient data of the received id
+     */
     private void getReceivedBundle() {
         patientID = getArguments().getString(DataBaseConstants.Constants_TBL_PATIENTS.ID);
 
         setPatientData();
     }
 
+    /**
+     * set patient data of the received id
+     */
     private void setPatientData() {
         try {
             patientArray = dataBaseHelper.getPatientByID(patientID);
-            Log.e("patientArray_log"," = "+patientArray);
             edtPin.setText(patientArray.getJSONObject(0).getString(DataBaseConstants.Constants_TBL_PATIENTS.PIN));
             edtDOB.setText(patientArray.getJSONObject(0).getString(DataBaseConstants.Constants_TBL_PATIENTS.DATE_OF_BIRTH));
             edtLastName.setText(patientArray.getJSONObject(0).getString(DataBaseConstants.Constants_TBL_PATIENTS.LAST_NAME));
@@ -109,6 +117,11 @@ public class EditPatientFragment extends Fragment {
         }
     }
 
+    /**
+     * set spinner adapters
+     * set list of status
+     * set list of blood groups
+     */
     private void setSpinnerAdapter() {
         statusList = new ArrayList<>();
         statusList.add("Select Status");
@@ -135,10 +148,12 @@ public class EditPatientFragment extends Fragment {
         bloodGroupAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.simple_item_selected, bloodGroupList);
         bloodGroupAdapter.setDropDownViewResource(R.layout.simple_item);
         spnBloodGroup.setAdapter(bloodGroupAdapter);
-
-
     }
 
+    /**
+     * set up all the UI elements here
+     * @param rootView
+     */
     private void setupUI(View rootView) {
         MainActivity.tvHeader.setText("Edit Patient");
         rbMale = rootView.findViewById(R.id.rb_male);
@@ -154,12 +169,20 @@ public class EditPatientFragment extends Fragment {
         btnUpdatePatient = rootView.findViewById(R.id.btn_update_patient);
     }
 
+    /**
+     * set all the click events of screen
+     */
     private void setupAllClickEvents() {
         btnUpdatePatient.setOnClickListener(view -> {
             updatePatientDetails();
         });
     }
 
+    /**
+     * update the patient details against the received patient_id
+     * after sucessfully update
+     * show the patient list screen
+     */
     private void updatePatientDetails() {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DataBaseConstants.Constants_TBL_PATIENTS.IS_DELETED,"N");
@@ -176,12 +199,19 @@ public class EditPatientFragment extends Fragment {
         showPatientList();
     }
 
+    /**
+     * get the user selected gender
+     * @return
+     */
     private String getSelectedGender() {
         int radioButtonID = rgGender.getCheckedRadioButtonId();
         RadioButton radioButton = rgGender.findViewById(radioButtonID);
         return radioButton.getText().toString();
     }
 
+    /**
+     * move to the patient listing screen
+     */
     private void showPatientList() {
         Utils.replaceFragment(getActivity(),new PatientListingFragment());
     }

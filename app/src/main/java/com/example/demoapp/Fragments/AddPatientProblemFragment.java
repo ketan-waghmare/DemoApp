@@ -22,7 +22,7 @@ import com.example.demoapp.SQLiteDatabase.DataBaseHelper;
 import com.example.demoapp.Utils.Utils;
 
 /**
- * created by ketan 25-9-2020
+ * created by ketan 26-9-2020
  */
 public class AddPatientProblemFragment extends Fragment {
 
@@ -62,6 +62,9 @@ public class AddPatientProblemFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * initialize database helper object
+     */
     private void initDB() {
         dataBaseHelper = new DataBaseHelper(getActivity());
 
@@ -71,7 +74,6 @@ public class AddPatientProblemFragment extends Fragment {
 
     /**
      * UI elements of the add patient screen
-     *
      * @param rootView
      */
     private void setupUI(View rootView) {
@@ -104,12 +106,15 @@ public class AddPatientProblemFragment extends Fragment {
         contentValues.put(DataBaseConstants.Constants_TBL_PATIENT_PROBLEMS.STATUS, spnStatusPatientProblem.getSelectedItem().toString().trim());
         if (!preferences.getString(DataBaseConstants.Constants_TBL_PATIENTS.ID, "").equals(""))
             contentValues.put(DataBaseConstants.Constants_TBL_PATIENT_PROBLEMS.PATIENT_ID, preferences.getString(DataBaseConstants.Constants_TBL_PATIENTS.ID, ""));
-        Log.e("content_values_log"," = "+contentValues);
+
         dataBaseHelper.saveToLocalTable(DataBaseConstants.TableNames.TBL_PATIENT_PROBLEMS, contentValues);
 
         showProblemListing();
     }
 
+    /**
+     * move to problem listing screen
+     */
     private void showProblemListing() {
       Utils.replaceFragment(getActivity(),new ProblemListingFragment());
     }
