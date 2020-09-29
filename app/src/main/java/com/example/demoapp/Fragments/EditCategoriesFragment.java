@@ -141,6 +141,7 @@ public class EditCategoriesFragment extends Fragment {
      */
     private boolean validate() {
         if(edtCategoryName.getText().toString().length() <= 0){
+            edtCategoryName.setFocusable(true);
             edtCategoryName.setError("Please Enter Category Name");
             return false;
         }else if(spnStatus.getSelectedItemPosition() == 0){

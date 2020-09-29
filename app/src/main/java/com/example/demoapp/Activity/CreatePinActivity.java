@@ -116,22 +116,28 @@ public class CreatePinActivity extends AppCompatActivity {
      */
     private boolean validate() {
         if(edtMobileNumber.getText().toString().length() <= 0){
+            edtMobileNumber.setFocusable(true);
             edtMobileNumber.setError("Please Enter Mobile Number");
             return false;
         }else if(edtFirstName.getText().toString().length() <= 0){
-            edtFirstName.setError("Please Enter Mobile Number");
+            edtFirstName.setFocusable(true);
+            edtFirstName.setError("Please Enter First Name");
             return false;
         }else if(edtLastName.getText().toString().length() <= 0){
-            edtLastName.setError("Please Enter Mobile Number");
+            edtLastName.setFocusable(true);
+            edtLastName.setError("Please Enter Last Name");
             return false;
         }else if(edtDateOfBirth.getText().toString().length() <= 0){
-            edtDateOfBirth.setError("Please Enter Mobile Number");
+            edtDateOfBirth.setFocusable(true);
+            edtDateOfBirth.setError("Please Enter Date of Birth");
             return false;
         }else if(edtEnterPin.getText().toString().length() <= 0){
-            edtEnterPin.setError("Please Enter Mobile Number");
+            edtEnterPin.setFocusable(true);
+            edtEnterPin.setError("Please Enter Pin");
             return false;
         }else if(edtConfirmPin.getText().toString().length() <= 0){
-            edtConfirmPin.setError("Please Enter Mobile Number");
+            edtConfirmPin.setFocusable(true);
+            edtConfirmPin.setError("Please Enter Confirm Pin");
             return false;
         }else if(spnStatus.getSelectedItemPosition() == 0){
             Toast.makeText(context, "Please select status", Toast.LENGTH_SHORT).show();

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.demoapp.Activity.MainActivity;
 import com.example.demoapp.R;
@@ -90,9 +91,23 @@ public class AddPatientProblemFragment extends Fragment {
         btnAddProblem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(validate())
                 addPatientProblem();
             }
         });
+    }
+
+    private boolean validate() {
+
+        if(edtPatientProblem.getText().toString().length() <= 0){
+            edtPatientProblem.setFocusable(true);
+            edtPatientProblem.setError("Please Enter Problem");
+            return false;
+        }else if(spnStatusPatientProblem.getSelectedItemPosition() == 0){
+            Toast.makeText(getActivity(), "Please Select Status", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     /**

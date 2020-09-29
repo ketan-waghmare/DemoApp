@@ -88,6 +88,7 @@ public class AddCategoriesFragment extends Fragment {
      */
     private boolean validate() {
         if(edtCategoryName.getText().toString().length() <= 0){
+            edtCategoryName.setFocusable(true);
             edtCategoryName.setError("Please Enter the Category Name");
             return false;
         }else if(spnStatus.getSelectedItemPosition() == 0){

@@ -174,8 +174,34 @@ public class EditPatientFragment extends Fragment {
      */
     private void setupAllClickEvents() {
         btnUpdatePatient.setOnClickListener(view -> {
+            if(validate())
             updatePatientDetails();
         });
+    }
+
+    private boolean validate() {
+        if(edtMobileNumber.getText().toString().length() <= 0){
+            edtMobileNumber.setFocusable(true);
+            edtMobileNumber.setError("Please Enter Mobile Number");
+            return false;
+        }else if(edtFirstName.getText().toString().length() <= 0){
+            edtFirstName.setFocusable(true);
+            edtFirstName.setError("Please Enter First Name");
+            return false;
+        }else if(edtLastName.getText().toString().length() <= 0){
+            edtLastName.setFocusable(true);
+            edtLastName.setError("Please Enter Last Name");
+            return false;
+        }else if(edtDOB.getText().toString().length() <= 0){
+            edtDOB.setFocusable(true);
+            edtDOB.setError("Please Enter Date of Birth");
+            return false;
+        }else if(edtPin.getText().toString().length() <= 0){
+            edtPin.setFocusable(true);
+            edtPin.setError("Please Enter Pin");
+            return false;
+        }
+        return true;
     }
 
     /**

@@ -83,8 +83,22 @@ public class ChangePinFragment extends Fragment {
      */
     private void setupEvents() {
         btnChagnePin.setOnClickListener(view -> {
+            if(validate())
             changePin();
         });
+    }
+
+    private boolean validate() {
+        if(edtPin.getText().toString().length() <= 0){
+            edtPin.setFocusable(true);
+            edtPin.setError("Please Enter Pin");
+            return false;
+        }else if(edtConfirmPin.getText().toString().length() <= 0){
+            edtConfirmPin.setFocusable(true);
+            edtConfirmPin.setError("Please Enter Confirm Pin");
+            return false;
+        }
+        return true;
     }
 
     /**
