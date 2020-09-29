@@ -149,6 +149,12 @@ public class CreatePinActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        context.startActivity(new Intent(CreatePinActivity.this,LoginActivity.class));
+    }
+
     /**
      * get the selected gender
      * @return
