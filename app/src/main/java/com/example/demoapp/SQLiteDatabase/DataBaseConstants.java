@@ -25,6 +25,8 @@ public class DataBaseConstants {
         public static final String GENDER = "gender";
         public static final String STATUS = "status";
         public static final String LAST_NAME = "last_name";
+        public static final String MOBILE_NUMBER = "mobile_number";
+        public static final String IS_DELETED = "is_deleted";
         public static final String FIRST_NAME = "first_name";
         public static final String BLOOD_GROUP = "blood_group";
         public static final String CREATE_DATE = "create_date";
@@ -35,6 +37,7 @@ public class DataBaseConstants {
         public static final String ID = "id";
         public static final String NAME = "name";
         public static final String STATUS = "status";
+        public static final String IS_DELETED = "is_deleted";
         public static final String CREATE_DATE = "create_date";
     }
 
@@ -42,6 +45,7 @@ public class DataBaseConstants {
         public static final String ID = "id";
         public static final String STATUS = "status";
         public static final String PROBLEM = "problem";
+        public static final String IS_DELETED = "is_deleted";
         public static final String PATIENT_ID = "patient_id";
         public static final String CREATE_DATE = "create_date";
     }

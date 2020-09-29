@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.example.demoapp.Activity.MainActivity;
 import com.example.demoapp.Model.CategoryModel;
 import com.example.demoapp.R;
 import com.example.demoapp.SQLiteDatabase.DataBaseConstants;
@@ -50,13 +51,18 @@ public class AddCategoriesFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_add_categories, container, false);
 
+        initDB();
         setupUI(rootView);
         setupClickEvents();
         return rootView;
     }
 
-    private void setupUI(View rootView) {
+    private void initDB() {
         dataBaseHelper = new DataBaseHelper(getActivity()); // initalization of database helper object
+    }
+
+    private void setupUI(View rootView) {
+        MainActivity.tvHeader.setText("Add Categories");
         spnStatus = rootView.findViewById(R.id.spn_status_category);
         btnAddCategory = rootView.findViewById(R.id.btn_add_category);
         edtCategoryName = rootView.findViewById(R.id.edt_category_name);
@@ -73,8 +79,9 @@ public class AddCategoriesFragment extends Fragment {
 
     private void addNewCategory() {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DataBaseConstants.Constants_TBL_CATEGORIES.NAME,edtCategoryName.getText().toString().trim());
+        contentValues.put(DataBaseConstants.Constants_TBL_CATEGORIES.IS_DELETED,"N");
         contentValues.put(DataBaseConstants.Constants_TBL_CATEGORIES.STATUS,spnStatus.getSelectedItem().toString());
+        contentValues.put(DataBaseConstants.Constants_TBL_CATEGORIES.NAME,edtCategoryName.getText().toString().trim());
         contentValues.put(DataBaseConstants.Constants_TBL_CATEGORIES.CREATE_DATE, Utils.getCurrentDateTime(Utils.MM_DD_YYY_HH_MM));
 
         dataBaseHelper.saveToLocalTable(DataBaseConstants.TableNames.TBL_CATEGORIES,contentValues);
@@ -85,21 +92,12 @@ public class AddCategoriesFragment extends Fragment {
          */
         spnStatus.setSelection(0);
         edtCategoryName.setText("");
-        gotoCategoriesListPage(getCategoriesFromDB());
+        gotoCategoriesListPage();
 
     }
 
-    private JSONArray getCategoriesFromDB() {
-        JSONArray jsonArray = dataBaseHelper.getCategoriesFromDB();
-        return jsonArray;
-    }
-
-    private void gotoCategoriesListPage(JSONArray categoriesFromDB) {
+    private void gotoCategoriesListPage() {
         Fragment fragment = new CategoryFragment();
-        Bundle args = new Bundle();
-        args.putSerializable("category_list", categoriesFromDB.toString());
-        fragment.setArguments(args);
-
         getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_right_in, R.anim.slide_left_out,
                 R.anim.slide_left_in, R.anim.slide_right_out).replace(R.id.container, fragment).addToBackStack(fragment.getClass().getName()).commit();
 

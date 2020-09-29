@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/round_edittext"
-            android:hint="@string/text_category_name"
+            android:hint="@string/text_problem"
             android:padding="10dp" />
 
         <Spinner
@@ -46,7 +46,7 @@
             android:layout_marginBottom="50dp"
             android:background="@drawable/rounded_celll"
             android:elevation="@dimen/_10sdp"
-            android:text="@string/text_add_category"
+            android:text="@string/text_add_problem"
             android:textAllCaps="false"
             android:textColor="@color/white" />
 

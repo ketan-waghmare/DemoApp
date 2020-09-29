@@ -1,17 +1,28 @@
 package com.example.demoapp.Fragments;
 
+import android.content.ContentValues;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.example.demoapp.Activity.MainActivity;
 import com.example.demoapp.R;
+import com.example.demoapp.SQLiteDatabase.DataBaseConstants;
+import com.example.demoapp.SQLiteDatabase.DataBaseHelper;
+import com.example.demoapp.Utils.Utils;
+
+import org.json.JSONArray;
+
+import java.util.ArrayList;
 
 /**
  * created by ketan 23-9-2020
@@ -19,8 +30,11 @@ import com.example.demoapp.R;
 public class EditCategoriesFragment extends Fragment {
 
     private Spinner spnStatus;
+    private String categoryId;
     private EditText edtCategoryName;
     private Button btnUpdateCategory;
+    private ArrayList<String> statusList;
+    private DataBaseHelper dataBaseHelper;
 
     public static EditCategoriesFragment newInstance(String param1, String param2) {
         EditCategoriesFragment fragment = new EditCategoriesFragment();
@@ -39,18 +53,55 @@ public class EditCategoriesFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_edit_categories, container, false);
 
+        initDB();
         setupUI(rootView);
-        setupClickEvents();
+        setSpinnerAdapter();
+        getReceivedBundle();
+        setupAllClickEvents();
         return rootView;
     }
 
+    private void setSpinnerAdapter() {
+        statusList = new ArrayList<>();
+        statusList.add("Select Status");
+        statusList.add("Active");
+        statusList.add("Inactive");
+
+        ArrayAdapter<String> dataAdapter;
+        dataAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),R.layout.simple_item_selected, statusList);
+        dataAdapter.setDropDownViewResource(R.layout.simple_item);
+        spnStatus.setAdapter(dataAdapter);
+    }
+
+    private void initDB() {
+        dataBaseHelper = new DataBaseHelper(getActivity());
+    }
+
+    private void getReceivedBundle() {
+        categoryId = getArguments().getString("id");
+
+        setCategoryData();
+    }
+
+    private void setCategoryData() {
+        try {
+            JSONArray categoryArray = dataBaseHelper.getCategoryByID(categoryId);
+            edtCategoryName.setText(categoryArray.getJSONObject(0).getString(DataBaseConstants.Constants_TBL_CATEGORIES.NAME));
+            spnStatus.setSelection(statusList.indexOf(categoryArray.getJSONObject(0).getString(DataBaseConstants.Constants_TBL_CATEGORIES.STATUS)));
+
+        }catch (Exception e){
+
+        }
+    }
+
     private void setupUI(View rootView) {
-        spnStatus = rootView.findViewById(R.id.spn_status_edit);
+        MainActivity.tvHeader.setText("Edit Categories");
+        spnStatus = rootView.findViewById(R.id.spn_status_category_edit);
         edtCategoryName = rootView.findViewById(R.id.edit_category_name);
         btnUpdateCategory = rootView.findViewById(R.id.btn_update_category);
     }
 
-    private void setupClickEvents() {
+    private void setupAllClickEvents() {
         btnUpdateCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,7 +111,16 @@ public class EditCategoriesFragment extends Fragment {
     }
 
     private void updateCategory() {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DataBaseConstants.Constants_TBL_CATEGORIES.NAME,edtCategoryName.getText().toString());
+        contentValues.put(DataBaseConstants.Constants_TBL_CATEGORIES.STATUS,spnStatus.getSelectedItem().toString().trim());
 
+        dataBaseHelper.updateTableData(DataBaseConstants.TableNames.TBL_CATEGORIES,contentValues,categoryId);
+        showCategoryList();
+    }
+
+    private void showCategoryList() {
+        Utils.replaceFragment(getActivity(),new CategoryFragment());
     }
 
 }

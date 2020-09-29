@@ -7,6 +7,7 @@ public class SQLiteQueries {
             + DataBaseConstants.Constants_TBL_CATEGORIES.ID + " INTEGER primary key AUTOINCREMENT,"
             + DataBaseConstants.Constants_TBL_CATEGORIES.NAME + " VARCHAR,"
             + DataBaseConstants.Constants_TBL_CATEGORIES.STATUS + " VARCHAR,"
+            + DataBaseConstants.Constants_TBL_CATEGORIES.IS_DELETED + " VARCHAR,"
             + DataBaseConstants.Constants_TBL_CATEGORIES.CREATE_DATE + " VARCHAR" + ");";
 
     public static final String QUERY_TBl_PATIENTS = "create table IF NOT EXISTS "
@@ -17,6 +18,8 @@ public class SQLiteQueries {
             + DataBaseConstants.Constants_TBL_PATIENTS.GENDER + " VARCHAR,"
             + DataBaseConstants.Constants_TBL_PATIENTS.BLOOD_GROUP + " VARCHAR,"
             + DataBaseConstants.Constants_TBL_PATIENTS.PIN + " VARCHAR,"
+            + DataBaseConstants.Constants_TBL_PATIENTS.IS_DELETED + " VARCHAR,"
+            + DataBaseConstants.Constants_TBL_PATIENTS.MOBILE_NUMBER + " VARCHAR,"
             + DataBaseConstants.Constants_TBL_PATIENTS.STATUS + " VARCHAR,"
             + DataBaseConstants.Constants_TBL_PATIENTS.DATE_OF_BIRTH + " VARCHAR,"
             + DataBaseConstants.Constants_TBL_PATIENTS.CREATE_DATE + " VARCHAR" + ");";
@@ -26,6 +29,7 @@ public class SQLiteQueries {
             + DataBaseConstants.Constants_TBL_PATIENT_PROBLEMS.ID + " INTEGER primary key AUTOINCREMENT,"
             + DataBaseConstants.Constants_TBL_PATIENT_PROBLEMS.PATIENT_ID + " VARCHAR,"
             + DataBaseConstants.Constants_TBL_PATIENT_PROBLEMS.PROBLEM + " VARCHAR,"
+            + DataBaseConstants.Constants_TBL_PATIENT_PROBLEMS.IS_DELETED + " VARCHAR,"
             + DataBaseConstants.Constants_TBL_PATIENT_PROBLEMS.STATUS + " VARCHAR,"
             + DataBaseConstants.Constants_TBL_PATIENT_PROBLEMS.CREATE_DATE + " VARCHAR" + ");";
 

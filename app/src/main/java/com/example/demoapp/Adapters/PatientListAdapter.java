@@ -4,11 +4,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.List;
 import com.example.demoapp.R;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.demoapp.Interfaces.RvClickListener;
+import com.example.demoapp.SQLiteDatabase.DataBaseConstants;
+
+import org.json.JSONArray;
 
 /**
  * created by ketan 24-9-2020
@@ -17,18 +22,27 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
 
     View itemView;
     Context context;
-    List<String> data_List;
+    JSONArray data_List;
     RvClickListener rvClickListener;
 
-    public PatientListAdapter(Context context, List<String> data_List) {
+    public PatientListAdapter(Context context, JSONArray data_List) {
         this.context = context;
         this.data_List = data_List;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        TextView tvPatientName;
+        ImageView ivEditPatient;
+        ImageView ivDeletePatient;
+
         public ViewHolder(View itemView) {
             super(itemView);
+
+            ivEditPatient = itemView.findViewById(R.id.iv_edit);
+            ivDeletePatient = itemView.findViewById(R.id.iv_delete);
+            tvPatientName = itemView.findViewById(R.id.tv_category);
+
         }
     }
 
@@ -61,15 +75,20 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        try{
+            holder.tvPatientName.setText(data_List.getJSONObject(position).getString(DataBaseConstants.Constants_TBL_PATIENTS.FIRST_NAME));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
-        itemView.setOnClickListener(new View.OnClickListener() {
+        holder.ivEditPatient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 rvClickListener.rv_click(position,position,"edit");
             }
         });
 
-        itemView.setOnClickListener(new View.OnClickListener() {
+        holder.ivDeletePatient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 rvClickListener.rv_click(position,position,"remove");
@@ -79,6 +98,6 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
 
     @Override
     public int getItemCount() {
-        return data_List.size();
+        return data_List.length();
     }
 }

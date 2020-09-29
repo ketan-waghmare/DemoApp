@@ -10,21 +10,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.example.demoapp.Activity.MainActivity;
 import com.example.demoapp.Adapters.CategoryListAdapter;
 import com.example.demoapp.Adapters.ProblemListAdapter;
 import com.example.demoapp.Interfaces.RvClickListener;
 import com.example.demoapp.R;
+import com.example.demoapp.SQLiteDatabase.DataBaseHelper;
+import com.example.demoapp.Utils.Utils;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 
 /**
  * created by ketan 24-9-2020
  */
-public class ProblemListingFragment extends Fragment implements RvClickListener {
+public class ProblemListingFragment extends Fragment{
 
+    private JSONArray problemArray;
+    private ProblemListAdapter adapter;
     private RecyclerView rvProblemsList;
     private ImageView ivAddPatientProblem;
+    private DataBaseHelper dataBaseHelper;
 
     public static ProblemListingFragment newInstance(String param1, String param2) {
         ProblemListingFragment fragment = new ProblemListingFragment();
@@ -42,13 +51,30 @@ public class ProblemListingFragment extends Fragment implements RvClickListener 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_problem_listing, container, false);
 
+        initDB();
         setupUI(rootView);
         setupClickEvents();
-        setProblemListAdapter();
+        getProblemListFromDB();
         return rootView;
     }
 
+    private void initDB() {
+        dataBaseHelper = new DataBaseHelper(getActivity());
+    }
+
+    private void getProblemListFromDB() {
+        problemArray = dataBaseHelper.getProblemFromDB();
+        if (problemArray != null && problemArray.length() > 0) {
+            rvProblemsList.setVisibility(View.VISIBLE);
+            setProblemListAdapter(problemArray);
+        }else {
+            rvProblemsList.setVisibility(View.GONE);
+            Toast.makeText(getActivity(), "No Categories found", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void setupUI(View rootView) {
+        MainActivity.tvHeader.setText("Problems");
         rvProblemsList = rootView.findViewById(R.id.rv_problem);
         ivAddPatientProblem = rootView.findViewById(R.id.iv_add_problem);
     }
@@ -62,32 +88,17 @@ public class ProblemListingFragment extends Fragment implements RvClickListener 
         });
     }
 
-    private void setProblemListAdapter() {
-        ArrayList<String> dataList = new ArrayList<>();
-        dataList.add("");
-        dataList.add("");
-        dataList.add("");
-        dataList.add("");
-        dataList.add("");
-
+    private void setProblemListAdapter(JSONArray dataList) {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1, GridLayoutManager.VERTICAL, false);
         rvProblemsList.setLayoutManager(gridLayoutManager);
-        ProblemListAdapter adapter = new ProblemListAdapter(getActivity(), dataList);
+        adapter = new ProblemListAdapter(getActivity(), dataList);
         rvProblemsList.setAdapter(adapter);
-        adapter.setRvClickListener(this);
     }
 
     /**
      * go to the add problem fragment for adding new problem
      */
     private void gotoAddProblemFragment() {
-        Fragment fragment = new AddPatientProblemFragment();
-        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_right_in, R.anim.slide_left_out,
-                R.anim.slide_left_in, R.anim.slide_right_out).replace(R.id.container, fragment).addToBackStack(fragment.getClass().getName()).commit();
-    }
-
-    @Override
-    public void rv_click(int position, int value, String key) {
-
+        Utils.replaceFragment(getActivity(),new AddPatientProblemFragment());
     }
 }

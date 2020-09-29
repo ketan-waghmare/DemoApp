@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
+import com.example.demoapp.Activity.MainActivity;
 import com.example.demoapp.R;
 import com.example.demoapp.SQLiteDatabase.DataBaseConstants;
 import com.example.demoapp.SQLiteDatabase.DataBaseHelper;
@@ -31,10 +32,12 @@ public class AddPatientFragment extends Fragment {
     private Spinner spnStatus;
     private RadioButton rbMale;
     private RadioGroup rgGender;
+    private RadioButton rbGender;
     private EditText edtLastName;
     private RadioButton rbFemale;
     private EditText edtFirstName;
     private EditText edtPinPatient;
+    private EditText edtMobileNumber;
 
     private Button btnAddPatient;
     private int selectedGenderId;
@@ -75,6 +78,7 @@ public class AddPatientFragment extends Fragment {
 
 
     private void setupUI(View rootView) {
+        MainActivity.tvHeader.setText("Add Patient");
         rbMale = rootView.findViewById(R.id.rd_male);
         rgGender = rootView.findViewById(R.id.rd_gender);
         rbFemale = rootView.findViewById(R.id.rd_female);
@@ -85,6 +89,7 @@ public class AddPatientFragment extends Fragment {
         spnBloodGroup = rootView.findViewById(R.id.spn_blood_group);
         btnAddPatient = rootView.findViewById(R.id.btn_add_patient);
         edtPinPatient = rootView.findViewById(R.id.edt_pin_patient);
+        edtMobileNumber = rootView.findViewById(R.id.edt_mobile_number);
     }
 
     /**
@@ -102,15 +107,17 @@ public class AddPatientFragment extends Fragment {
 
         rgGender.setOnCheckedChangeListener((radioGroup, i) -> {
             selectedGenderId = rgGender.getCheckedRadioButtonId();
-            rgGender = rootView.findViewById(selectedGenderId);
+            rbGender = rootView.findViewById(selectedGenderId);
         });
     }
 
     private void addNewPatient() {
         try {
             ContentValues contentValues = new ContentValues();
+            contentValues.put(DataBaseConstants.Constants_TBL_PATIENTS.IS_DELETED, "N");
             contentValues.put(DataBaseConstants.Constants_TBL_PATIENTS.GENDER, getSelectedGender());
             contentValues.put(DataBaseConstants.Constants_TBL_PATIENTS.PIN,edtPinPatient.getText().toString().trim());
+            contentValues.put(DataBaseConstants.Constants_TBL_PATIENTS.MOBILE_NUMBER, edtMobileNumber.getText().toString());
             contentValues.put(DataBaseConstants.Constants_TBL_PATIENTS.DATE_OF_BIRTH, edtDOB.getText().toString().trim());
             contentValues.put(DataBaseConstants.Constants_TBL_PATIENTS.LAST_NAME, edtLastName.getText().toString().trim());
             contentValues.put(DataBaseConstants.Constants_TBL_PATIENTS.FIRST_NAME, edtFirstName.getText().toString().trim());
@@ -126,7 +133,7 @@ public class AddPatientFragment extends Fragment {
     }
 
     private void gotoPatientListing() {
-       Fragment fragment = new Fragment();
+       Fragment fragment = new PatientListingFragment();
         getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_right_in, R.anim.slide_left_out,
                 R.anim.slide_left_in, R.anim.slide_right_out).replace(R.id.container, fragment).addToBackStack(fragment.getClass().getName()).commit();
     }

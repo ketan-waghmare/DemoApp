@@ -24,6 +24,7 @@ import java.net.Inet4Address;
 
 public class CreatePinActivity extends AppCompatActivity {
 
+    private Spinner spnStatus;
     private RadioButton rbMale;
     private RadioGroup rgGender;
     private RadioButton rbGender;
@@ -35,6 +36,7 @@ public class CreatePinActivity extends AppCompatActivity {
     private Spinner spnBloodGroup;
     private EditText edtConfirmPin;
     private EditText edtDateOfBirth;
+    private EditText edtMobileNumber;
 
     private int selectedGenderId;
     private DataBaseHelper dataBaseHelper;
@@ -60,6 +62,7 @@ public class CreatePinActivity extends AppCompatActivity {
     private void setupUI() {
         rbMale = findViewById(R.id.rb_male);
         rbFemale = findViewById(R.id.rb_female);
+        spnStatus = findViewById(R.id.spn_status_create);
         rgGender = findViewById(R.id.rd_gender_register);
         btnCreateUser = findViewById(R.id.btn_create_user);
         edtLastName = findViewById(R.id.edt_last_name_create);
@@ -68,6 +71,7 @@ public class CreatePinActivity extends AppCompatActivity {
         spnBloodGroup = findViewById(R.id.spn_blood_group_create);
         edtConfirmPin = findViewById(R.id.edt_confirm_pin_create);
         edtDateOfBirth = findViewById(R.id.edt_date_of_birth_create);
+        edtMobileNumber = findViewById(R.id.edt_mobile_number_create);
     }
 
     /**
@@ -106,12 +110,15 @@ public class CreatePinActivity extends AppCompatActivity {
         contentValues.put(DataBaseConstants.Constants_TBL_PATIENTS.PIN, edtConfirmPin.getText().toString().trim());
         contentValues.put(DataBaseConstants.Constants_TBL_PATIENTS.LAST_NAME, edtLastName.getText().toString().trim());
         contentValues.put(DataBaseConstants.Constants_TBL_PATIENTS.FIRST_NAME, edtFirstName.getText().toString().trim());
+        contentValues.put(DataBaseConstants.Constants_TBL_PATIENTS.STATUS, spnStatus.getSelectedItem().toString().trim());
         contentValues.put(DataBaseConstants.Constants_TBL_PATIENTS.DATE_OF_BIRTH, edtDateOfBirth.getText().toString().trim());
         contentValues.put(DataBaseConstants.Constants_TBL_PATIENTS.BLOOD_GROUP, spnBloodGroup.getSelectedItem().toString().trim());
+        contentValues.put(DataBaseConstants.Constants_TBL_PATIENTS.IS_DELETED, "N");
+        contentValues.put(DataBaseConstants.Constants_TBL_PATIENTS.MOBILE_NUMBER, edtMobileNumber.getText().toString());
         contentValues.put(DataBaseConstants.Constants_TBL_CATEGORIES.CREATE_DATE, Utils.getCurrentDateTime(Utils.MM_DD_YYY_HH_MM));
 
         dataBaseHelper.saveToLocalTable(DataBaseConstants.TableNames.TBL_PATIENTS, contentValues);
-        context.startActivity(new Intent(CreatePinActivity.this,LoginActivity.class));
+        context.startActivity(new Intent(CreatePinActivity.this, LoginActivity.class));
     }
 
 

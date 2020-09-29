@@ -4,6 +4,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,11 +36,15 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        ImageView ivEdit;
+        ImageView ivDelete;
         TextView tvCategory;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
+            ivEdit = itemView.findViewById(R.id.iv_edit);
+            ivDelete = itemView.findViewById(R.id.iv_delete);
             tvCategory = itemView.findViewById(R.id.tv_category);
         }
     }
@@ -80,14 +85,16 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         }catch (Exception e){
             e.printStackTrace();
         }
-        itemView.setOnClickListener(new View.OnClickListener() {
+
+
+        holder.ivEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 rvClickListener.rv_click(position, position, "edit");
             }
         });
 
-        itemView.setOnClickListener(new View.OnClickListener() {
+        holder.ivDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 rvClickListener.rv_click(position, position, "remove");

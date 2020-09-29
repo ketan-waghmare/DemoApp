@@ -11,12 +11,24 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="18dp"
+        android:gravity="center"
         android:text="@string/text_generate_user"
         android:textSize="25sp"
-        android:gravity="center"
-        android:layout_gravity="center_horizontal"
         android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/edt_mobile_number_create"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/round_edittext"
+        android:hint="Mobile Number"
+        android:inputType="number"
+        android:maxLength="10"
+        android:padding="10dp" />
 
     <EditText
         android:id="@+id/edt_first_name_create"
@@ -45,11 +57,11 @@
         android:id="@+id/edt_date_of_birth_create"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:background="@drawable/round_edittext"
-        android:hint="@string/text_dateofbirth"
-        android:padding="10dp"
         android:editable="false"
-        android:layout_margin="10dp"/>
+        android:hint="@string/text_dateofbirth"
+        android:padding="10dp" />
 
     <Spinner
         android:id="@+id/spn_blood_group_create"
@@ -58,8 +70,20 @@
         android:layout_height="45dp"
         android:layout_margin="10dp"
         android:layout_marginBottom="20dp"
-        android:entries="@array/blood_group"
         android:background="@drawable/round_edittext"
+        android:entries="@array/blood_group"
+        android:theme="@style/ThemeSpinner"
+        android:visibility="visible" />
+
+    <Spinner
+        android:id="@+id/spn_status_create"
+        style="@style/Widget.AppCompat.Spinner.Underlined"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_margin="10dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/round_edittext"
+        android:entries="@array/status"
         android:theme="@style/ThemeSpinner"
         android:visibility="visible" />
 
@@ -67,10 +91,12 @@
         android:id="@+id/edt_enter_pin_create"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:background="@drawable/round_edittext"
         android:hint="@string/text_pin"
-        android:padding="10dp"
-        android:layout_margin="10dp"/>
+        android:maxLength="4"
+        android:inputType="numberPassword"
+        android:padding="10dp" />
 
     <EditText
         android:id="@+id/edt_confirm_pin_create"
@@ -78,7 +104,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="@drawable/round_edittext"
+        android:inputType="numberPassword"
         android:hint="@string/text_confirm"
+        android:maxLength="4"
         android:padding="10dp" />
 
     <RadioGroup

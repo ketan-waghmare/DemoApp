@@ -1,8 +1,15 @@
 package com.example.demoapp.Utils;
 
+import android.content.Context;
 import android.util.Log;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
+import com.example.demoapp.R;
 
 import java.net.URL;
 import java.util.Date;
@@ -20,28 +27,9 @@ import java.text.SimpleDateFormat;
 
 public class Utils {
 
+    public static String PREFERENCE_USER = "user";
 
     public static final String MM_DD_YYY_HH_MM = "MM/dd/yyyy HH:mm";
-
-
-    public static Bitmap getBitmapFromURL(String src) {
-        try {
-            Log.e("src",src);
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            Log.e("Bitmap","returned");
-            return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("Exception",e.getMessage());
-            return null;
-        }
-    }
-
 
     public static String getCurrentDateTime(String format) {
         DateFormat dateFormatter = new SimpleDateFormat(format);
@@ -51,6 +39,11 @@ public class Utils {
         String s = dateFormatter.format(today);
         Log.e("today_Date", "" + s);
         return s;
+    }
+
+    public static void replaceFragment(Context context, Fragment fragment) {
+        FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.container, fragment).addToBackStack(fragment.getClass().getName()).commit();
     }
 
 }
