@@ -38,10 +38,8 @@ public class DataBaseHelper {
 
             if (count != -1) {
                 Toast.makeText(context, "Data stored successfully", Toast.LENGTH_SHORT).show();
-                Log.v("DataHelp_Log", "Insert " + table + " Details Successfully");
             } else {
                 Toast.makeText(context, "Data not stored properly", Toast.LENGTH_SHORT).show();
-                Log.v("DataHelp_Log", "Insert " + table + " Details Fail");
             }
 
         } catch (Exception e) {
@@ -59,7 +57,7 @@ public class DataBaseHelper {
         JSONArray jArray = new JSONArray();
 
         cursor = sqLiteDatabase.rawQuery("SELECT * from `" + DataBaseConstants.TableNames.TBL_CATEGORIES + "` Where is_deleted = 'N'", null);
-        Log.e("query_log", "SELECT * from `" + DataBaseConstants.TableNames.TBL_CATEGORIES + "` Where is_deleted = 'N'", null);
+
         JSONObject json = null;
 
         if (cursor.getCount() != 0) {
@@ -194,7 +192,6 @@ public class DataBaseHelper {
         JSONArray jArray = new JSONArray();
 
         cursor = sqLiteDatabase.rawQuery("SELECT * from `" + DataBaseConstants.TableNames.TBL_PATIENTS + "` Where is_deleted = 'N' ANd " + DataBaseConstants.Constants_TBL_CATEGORIES.ID + " ='" + id + "'", null);
-        Log.e("getCategoryToEdit_query", "SELECT * from `" + DataBaseConstants.TableNames.TBL_PATIENTS + "` Where is_deleted = 'N' ANd " + DataBaseConstants.Constants_TBL_PATIENTS.ID + " ='" + id + "'");
 
         JSONObject json = null;
 
@@ -241,6 +238,9 @@ public class DataBaseHelper {
         return jArray;
     }
 
+    /**
+     * get the filetered list of patients
+     */
     public JSONArray getFilteredList(String firstName, String createdDate, String dateOfBirth) {
         Cursor cursor = null;
         JSONArray jArray = new JSONArray();
@@ -248,8 +248,6 @@ public class DataBaseHelper {
         cursor = sqLiteDatabase.rawQuery("SELECT * from `" + DataBaseConstants.TableNames.TBL_PATIENTS + "` Where is_deleted = 'N' AND " + DataBaseConstants.Constants_TBL_PATIENTS.FIRST_NAME + " LIKE '%" + firstName + "%' AND "
                 + DataBaseConstants.Constants_TBL_PATIENTS.DATE_OF_BIRTH + " LIKE '%" + dateOfBirth + "%' AND " + DataBaseConstants.Constants_TBL_PATIENTS.CREATE_DATE + " LIKE '%" + createdDate + "%'", null);
 
-        Log.e("FilteredList_query", "SELECT * from `" + DataBaseConstants.TableNames.TBL_PATIENTS + "` Where is_deleted = 'N' AND " + DataBaseConstants.Constants_TBL_PATIENTS.FIRST_NAME + " LIKE '%" + firstName + "%' AND "
-                + DataBaseConstants.Constants_TBL_PATIENTS.DATE_OF_BIRTH + " LIKE '%" + dateOfBirth + "%' AND " + DataBaseConstants.Constants_TBL_PATIENTS.CREATE_DATE + " LIKE '%" + createdDate + "%'");
         JSONObject json = null;
 
         if (cursor.getCount() != 0) {

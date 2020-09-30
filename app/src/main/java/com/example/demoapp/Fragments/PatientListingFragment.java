@@ -145,6 +145,7 @@ public class PatientListingFragment extends Fragment implements RvClickListener 
 
     /**
      * filter the list of patients as per user input
+     * set the filtered list to the adapter
      */
     private void filterPatients() {
         try {
