@@ -27,6 +27,8 @@ import com.example.demoapp.Fragments.EditPatientFragment;
 import com.example.demoapp.Fragments.PatientListingFragment;
 import com.example.demoapp.Fragments.ProblemListingFragment;
 import com.example.demoapp.R;
+import com.example.demoapp.SQLiteDatabase.DataBaseConstants;
+import com.example.demoapp.Utils.Constants;
 import com.example.demoapp.Utils.Utils;
 import com.google.android.material.navigation.NavigationView;
 
@@ -173,15 +175,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void showAlerDialog() {
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle("Exit App")
-                .setMessage("Do you want to exit?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setTitle(Constants.MSG_EXIT_APP)
+                .setMessage(Constants.MSG_DO_YOU_WANT_TO_EXIT)
+                .setPositiveButton(Constants.MSG_YES, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         finishAffinity();
                     }
                 })
-                .setNegativeButton("No", null)
+                .setNegativeButton(Constants.MSG_NO, null)
                 .show();
     }
 

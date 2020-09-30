@@ -23,6 +23,7 @@ import com.example.demoapp.Interfaces.RvClickListener;
 import com.example.demoapp.R;
 import com.example.demoapp.SQLiteDatabase.DataBaseConstants;
 import com.example.demoapp.SQLiteDatabase.DataBaseHelper;
+import com.example.demoapp.Utils.Constants;
 import com.example.demoapp.Utils.DTU;
 import com.example.demoapp.Utils.Utils;
 
@@ -86,13 +87,13 @@ public class PatientListingFragment extends Fragment implements RvClickListener 
      */
     private void getPatientListFromDB() {
         patientArray = dataBaseHelper.getPatientListFromDB();
-        Log.e("patient_array_log"," = "+patientArray);
+
         if(patientArray != null && patientArray.length() > 0){
             rvPatients.setVisibility(View.VISIBLE);
             setPatientListAdapter(patientArray);
         }else{
             rvPatients.setVisibility(View.GONE);
-            Toast.makeText(getActivity(), "No Patients Found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), Constants.NO_PATIENT_FOUND, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -101,7 +102,7 @@ public class PatientListingFragment extends Fragment implements RvClickListener 
      * @param rootView
      */
     private void setupUI(View rootView) {
-        MainActivity.tvHeader.setText("Patients");
+        MainActivity.tvHeader.setText(Constants.PATIENTS);
         btnFilter = rootView.findViewById(R.id.btn_filter);
         rvPatients = rootView.findViewById(R.id.rv_patients);
         edtCreatedDate = rootView.findViewById(R.id.edt_created_date);
@@ -150,7 +151,6 @@ public class PatientListingFragment extends Fragment implements RvClickListener 
     private void filterPatients() {
         try {
             patientArray = dataBaseHelper.getFilteredList(edtFirstName.getText().toString(),edtCreatedDate.getText().toString(),edtDateOfBirth.getText().toString());
-            Log.e("filterArray_log"," = "+patientArray);
             setPatientListAdapter(patientArray);
         }catch (Exception e){
             e.printStackTrace();
@@ -185,9 +185,9 @@ public class PatientListingFragment extends Fragment implements RvClickListener 
      */
     @Override
     public void rv_click(int position, int value, String key) {
-        if(key.equals("edit")){
+        if(key.equals(Constants.EDIT)){
             editPatient(position);
-        }else if(key.equals("remove")){
+        }else if(key.equals(Constants.REMOVE)){
             removePatient(position);
         }
     }
@@ -201,7 +201,7 @@ public class PatientListingFragment extends Fragment implements RvClickListener 
         try{
             fragment = new EditPatientFragment();
             Bundle args = new Bundle();
-            args.putString("id",patientArray.getJSONObject(position).getString(DataBaseConstants.Constants_TBL_PATIENTS.ID));
+            args.putString(Constants.ID,patientArray.getJSONObject(position).getString(DataBaseConstants.Constants_TBL_PATIENTS.ID));
             fragment.setArguments(args);
             getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_right_in, R.anim.slide_left_out,
                     R.anim.slide_left_in, R.anim.slide_right_out).replace(R.id.container, fragment).addToBackStack(fragment.getClass().getName()).commit();
@@ -221,7 +221,7 @@ public class PatientListingFragment extends Fragment implements RvClickListener 
     private void removePatient(int position) {
         try {
             ContentValues contentValues = new ContentValues();
-            contentValues.put("is_deleted","Y");
+            contentValues.put(Constants.IS_DELETED,"Y");
             dataBaseHelper.updateTableData(DataBaseConstants.TableNames.TBL_PATIENTS,contentValues,patientArray.getJSONObject(position).getString(DataBaseConstants.Constants_TBL_PATIENTS.ID));
             getPatientListFromDB();
         }catch (Exception e){

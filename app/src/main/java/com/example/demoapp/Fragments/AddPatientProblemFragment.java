@@ -20,6 +20,7 @@ import com.example.demoapp.Activity.MainActivity;
 import com.example.demoapp.R;
 import com.example.demoapp.SQLiteDatabase.DataBaseConstants;
 import com.example.demoapp.SQLiteDatabase.DataBaseHelper;
+import com.example.demoapp.Utils.Constants;
 import com.example.demoapp.Utils.Utils;
 
 /**
@@ -78,7 +79,7 @@ public class AddPatientProblemFragment extends Fragment {
      * @param rootView
      */
     private void setupUI(View rootView) {
-        MainActivity.tvHeader.setText("Add Patient Problem");
+        MainActivity.tvHeader.setText(Constants.ADD_PATIENT_PROBLEM);
         btnAddProblem = rootView.findViewById(R.id.btn_add_problem);
         edtPatientProblem = rootView.findViewById(R.id.edt_add_patient_problem);
         spnStatusPatientProblem = rootView.findViewById(R.id.spn_patient_problem_status);
@@ -97,14 +98,16 @@ public class AddPatientProblemFragment extends Fragment {
         });
     }
 
+    /**
+     * validate user input
+     */
     private boolean validate() {
-
         if(edtPatientProblem.getText().toString().length() <= 0){
             edtPatientProblem.setFocusable(true);
-            edtPatientProblem.setError("Please Enter Problem");
+            edtPatientProblem.setError(Constants.ERR_MSG_PROBLEM);
             return false;
         }else if(spnStatusPatientProblem.getSelectedItemPosition() == 0){
-            Toast.makeText(getActivity(), "Please Select Status", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), Constants.ERR_MSG_STATUS, Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

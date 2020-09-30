@@ -15,11 +15,13 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.demoapp.Activity.MainActivity;
 import com.example.demoapp.R;
 import com.example.demoapp.SQLiteDatabase.DataBaseConstants;
 import com.example.demoapp.SQLiteDatabase.DataBaseHelper;
+import com.example.demoapp.Utils.Constants;
 import com.example.demoapp.Utils.Utils;
 
 import org.json.JSONArray;
@@ -124,9 +126,9 @@ public class EditPatientFragment extends Fragment {
      */
     private void setSpinnerAdapter() {
         statusList = new ArrayList<>();
-        statusList.add("Select Status");
-        statusList.add("Active");
-        statusList.add("Inactive");
+        statusList.add(Constants.SELECT_STATUS);
+        statusList.add(Constants.ACTIVE);
+        statusList.add(Constants.INACTIVE);
 
         ArrayAdapter<String> dataAdapter;
         dataAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.simple_item_selected, statusList);
@@ -134,15 +136,15 @@ public class EditPatientFragment extends Fragment {
         spnStatus.setAdapter(dataAdapter);
 
         bloodGroupList = new ArrayList<>();
-        bloodGroupList.add("Select Blood Group");
-        bloodGroupList.add("O+");
-        bloodGroupList.add("O-");
-        bloodGroupList.add("A+");
-        bloodGroupList.add("A-");
-        bloodGroupList.add("B+");
-        bloodGroupList.add("B-");
-        bloodGroupList.add("AB+");
-        bloodGroupList.add("AB-");
+        bloodGroupList.add(Constants.SELECT_BLOOD_GROUP);
+        bloodGroupList.add(Constants.O_POSITIVE);
+        bloodGroupList.add(Constants.O_NEGATIVE);
+        bloodGroupList.add(Constants.A_POSITIVE);
+        bloodGroupList.add(Constants.A_NEGATIVE);
+        bloodGroupList.add(Constants.B_POSITIVE);
+        bloodGroupList.add(Constants.B_NEGATIVE);
+        bloodGroupList.add(Constants.AB_POSITIVE);
+        bloodGroupList.add(Constants.AB_NEGATIVE);
 
         ArrayAdapter<String> bloodGroupAdapter;
         bloodGroupAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.simple_item_selected, bloodGroupList);
@@ -155,7 +157,9 @@ public class EditPatientFragment extends Fragment {
      * @param rootView
      */
     private void setupUI(View rootView) {
-        MainActivity.tvHeader.setText("Edit Patient");
+        //set the header first
+        MainActivity.tvHeader.setText(Constants.EDIT_PATIENT);
+
         rbMale = rootView.findViewById(R.id.rb_male);
         edtPin = rootView.findViewById(R.id.edit_pin);
         rbFemale = rootView.findViewById(R.id.rb_female);
@@ -182,23 +186,26 @@ public class EditPatientFragment extends Fragment {
     private boolean validate() {
         if(edtMobileNumber.getText().toString().length() <= 0){
             edtMobileNumber.setFocusable(true);
-            edtMobileNumber.setError("Please Enter Mobile Number");
+            edtMobileNumber.setError(Constants.ERR_MSG_MOBILE);
             return false;
         }else if(edtFirstName.getText().toString().length() <= 0){
             edtFirstName.setFocusable(true);
-            edtFirstName.setError("Please Enter First Name");
+            edtFirstName.setError(Constants.ERR_MSG_FIRST_NAME);
             return false;
         }else if(edtLastName.getText().toString().length() <= 0){
             edtLastName.setFocusable(true);
-            edtLastName.setError("Please Enter Last Name");
+            edtLastName.setError(Constants.ERR_MSG_LAST_NAME);
             return false;
         }else if(edtDOB.getText().toString().length() <= 0){
             edtDOB.setFocusable(true);
-            edtDOB.setError("Please Enter Date of Birth");
+            edtDOB.setError(Constants.ERR_MSG_DATE_OF_BIRTH);
             return false;
         }else if(edtPin.getText().toString().length() <= 0){
             edtPin.setFocusable(true);
-            edtPin.setError("Please Enter Pin");
+            edtPin.setError(Constants.ERR_MSG_PIN);
+            return false;
+        }else if(rgGender.getCheckedRadioButtonId() == -1){
+            Toast.makeText(getActivity(), Constants.ERR_MSG_GENDER, Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

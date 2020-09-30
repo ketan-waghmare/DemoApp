@@ -18,6 +18,7 @@ import com.example.demoapp.Activity.MainActivity;
 import com.example.demoapp.R;
 import com.example.demoapp.SQLiteDatabase.DataBaseConstants;
 import com.example.demoapp.SQLiteDatabase.DataBaseHelper;
+import com.example.demoapp.Utils.Constants;
 import com.example.demoapp.Utils.Utils;
 
 /**
@@ -72,7 +73,7 @@ public class ChangePinFragment extends Fragment {
      * @param rootView
      */
     private void setupUI(View rootView) {
-        MainActivity.tvHeader.setText("Change Pin");
+        MainActivity.tvHeader.setText(Constants.CHANGE_PIN);
         edtPin = rootView.findViewById(R.id.edt_enter_pin_change);
         btnChagnePin = rootView.findViewById(R.id.btn_change_pin);
         edtConfirmPin = rootView.findViewById(R.id.edt_confirm_pin_change);
@@ -88,14 +89,19 @@ public class ChangePinFragment extends Fragment {
         });
     }
 
+    /**
+     * validate user input
+     * return true when user enter all the data
+     * return false when user miss to enter data
+     */
     private boolean validate() {
         if(edtPin.getText().toString().length() <= 0){
             edtPin.setFocusable(true);
-            edtPin.setError("Please Enter Pin");
+            edtPin.setError(Constants.ERR_MSG_PIN);
             return false;
         }else if(edtConfirmPin.getText().toString().length() <= 0){
             edtConfirmPin.setFocusable(true);
-            edtConfirmPin.setError("Please Enter Confirm Pin");
+            edtConfirmPin.setError(Constants.ERR_MSG_CONFIRM_PIN);
             return false;
         }
         return true;
@@ -105,7 +111,6 @@ public class ChangePinFragment extends Fragment {
      * change pin of the user or update the existing pin
      */
     private void changePin() {
-        Log.e("patient_id"," = "+preferences.getString(DataBaseConstants.Constants_TBL_PATIENTS.ID,""));
         if (!preferences.getString(DataBaseConstants.Constants_TBL_PATIENTS.ID, "").equals("")) {
             ContentValues contentValues = new ContentValues();
             contentValues.put(DataBaseConstants.Constants_TBL_PATIENTS.PIN, edtConfirmPin.getText().toString());
@@ -114,6 +119,9 @@ public class ChangePinFragment extends Fragment {
         }
     }
 
+    /**
+     * move to patient listing screen
+     */
     private void showPatientListing() {
       Utils.replaceFragment(getActivity(),new PatientListingFragment());
     }

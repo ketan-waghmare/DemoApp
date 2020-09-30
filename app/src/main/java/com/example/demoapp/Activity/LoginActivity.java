@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.demoapp.R;
 import com.example.demoapp.SQLiteDatabase.DataBaseConstants;
 import com.example.demoapp.SQLiteDatabase.DataBaseHelper;
+import com.example.demoapp.Utils.Constants;
 import com.example.demoapp.Utils.Utils;
 
 import org.json.JSONArray;
@@ -29,11 +30,8 @@ public class LoginActivity extends AppCompatActivity {
     //region variables
     private EditText edtPin;
     private Button btnLogin;
-    private Button btnSubmit;
     private JSONArray verifyJsonArray;
 
-    private long count = 0;
-    private String patientId;
     private TextView tvCreatePin;
     private EditText edtMobileNumber;
     private DataBaseHelper dataBaseHelper;
@@ -67,7 +65,6 @@ public class LoginActivity extends AppCompatActivity {
     private void setupUI() {
         edtPin = findViewById(R.id.edt_pin);
         btnLogin = findViewById(R.id.btn_login);
-        btnSubmit = findViewById(R.id.btn_submit);
         tvCreatePin = findViewById(R.id.tv_create_pin);
         edtMobileNumber = findViewById(R.id.edt_mobile_number);
     }
@@ -92,14 +89,18 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * validate user input
+     * @return
+     */
     private boolean validate() {
         if(edtMobileNumber.getText().toString().length() <= 0){
             edtMobileNumber.setFocusable(true);
-            edtMobileNumber.setError("Please Enter Mobile Number");
+            edtMobileNumber.setError(Constants.ERR_MSG_MOBILE);
             return false;
         }else if(edtPin.getText().toString().length() <= 0){
             edtPin.setFocusable(true);
-            edtPin.setError("Please Enter Pin");
+            edtPin.setError(Constants.ERR_MSG_PIN);
             return false;
         }
         return true;
@@ -118,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                 context.startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 writeToSharedPreference(Utils.PREFERENCE_USER, DataBaseConstants.Constants_TBL_PATIENTS.ID, verifyJsonArray.getJSONObject(0).getString(DataBaseConstants.Constants_TBL_PATIENTS.ID));
             } else {
-                Toast.makeText(context, "User not registred create user first", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, Constants.ERR_MSG_REGISTER, Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -135,10 +136,6 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * store the logged in patient id
-     *
-     * @param preferenceName
-     * @param key
-     * @param value
      */
     private void writeToSharedPreference(String preferenceName, String key, String value) {
         SharedPreferences sharedPreference = getSharedPreferences(preferenceName, MODE_PRIVATE);

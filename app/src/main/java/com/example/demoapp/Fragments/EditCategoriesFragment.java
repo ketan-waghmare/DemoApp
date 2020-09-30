@@ -19,6 +19,7 @@ import com.example.demoapp.Activity.MainActivity;
 import com.example.demoapp.R;
 import com.example.demoapp.SQLiteDatabase.DataBaseConstants;
 import com.example.demoapp.SQLiteDatabase.DataBaseHelper;
+import com.example.demoapp.Utils.Constants;
 import com.example.demoapp.Utils.Utils;
 
 import org.json.JSONArray;
@@ -69,9 +70,9 @@ public class EditCategoriesFragment extends Fragment {
      */
     private void setSpinnerAdapter() {
         statusList = new ArrayList<>();
-        statusList.add("Select Status");
-        statusList.add("Active");
-        statusList.add("Inactive");
+        statusList.add(Constants.SELECT_STATUS);
+        statusList.add(Constants.ACTIVE);
+        statusList.add(Constants.INACTIVE);
 
         ArrayAdapter<String> dataAdapter;
         dataAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),R.layout.simple_item_selected, statusList);
@@ -91,7 +92,7 @@ public class EditCategoriesFragment extends Fragment {
      * set the data of category by using received id
      */
     private void getReceivedBundle() {
-        categoryId = getArguments().getString("id");
+        categoryId = getArguments().getString(Constants.ID);
 
         setCategoryData();
     }
@@ -105,9 +106,8 @@ public class EditCategoriesFragment extends Fragment {
             JSONArray categoryArray = dataBaseHelper.getCategoryByID(categoryId);
             edtCategoryName.setText(categoryArray.getJSONObject(0).getString(DataBaseConstants.Constants_TBL_CATEGORIES.NAME));
             spnStatus.setSelection(statusList.indexOf(categoryArray.getJSONObject(0).getString(DataBaseConstants.Constants_TBL_CATEGORIES.STATUS)));
-
         }catch (Exception e){
-
+            e.printStackTrace();
         }
     }
 
@@ -116,7 +116,7 @@ public class EditCategoriesFragment extends Fragment {
      * @param rootView
      */
     private void setupUI(View rootView) {
-        MainActivity.tvHeader.setText("Edit Categories");
+        MainActivity.tvHeader.setText(Constants.EDIT_CATEGORY);
         spnStatus = rootView.findViewById(R.id.spn_status_category_edit);
         edtCategoryName = rootView.findViewById(R.id.edit_category_name);
         btnUpdateCategory = rootView.findViewById(R.id.btn_update_category);
@@ -137,15 +137,14 @@ public class EditCategoriesFragment extends Fragment {
 
     /**
      * validate user input
-     * @return
      */
     private boolean validate() {
         if(edtCategoryName.getText().toString().length() <= 0){
             edtCategoryName.setFocusable(true);
-            edtCategoryName.setError("Please Enter Category Name");
+            edtCategoryName.setError(Constants.ERR_MSG_CATEGORY_NAME);
             return false;
         }else if(spnStatus.getSelectedItemPosition() == 0){
-            Toast.makeText(getActivity(), "Please Select Status", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), Constants.ERR_MSG_STATUS, Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

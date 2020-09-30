@@ -12,6 +12,7 @@ import com.example.demoapp.R;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.demoapp.Interfaces.RvClickListener;
 import com.example.demoapp.SQLiteDatabase.DataBaseConstants;
+import com.example.demoapp.Utils.Constants;
 
 import org.json.JSONArray;
 
@@ -84,14 +85,14 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
         holder.ivEditPatient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                rvClickListener.rv_click(position,position,"edit");
+                rvClickListener.rv_click(position,position, Constants.EDIT);
             }
         });
 
         holder.ivDeletePatient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                rvClickListener.rv_click(position,position,"remove");
+                rvClickListener.rv_click(position,position,Constants.REMOVE);
             }
         });
     }

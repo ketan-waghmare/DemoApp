@@ -19,6 +19,7 @@ import com.example.demoapp.Activity.MainActivity;
 import com.example.demoapp.R;
 import com.example.demoapp.SQLiteDatabase.DataBaseConstants;
 import com.example.demoapp.SQLiteDatabase.DataBaseHelper;
+import com.example.demoapp.Utils.Constants;
 import com.example.demoapp.Utils.DTU;
 import com.example.demoapp.Utils.Utils;
 
@@ -86,7 +87,9 @@ public class AddPatientFragment extends Fragment {
      * @param rootView
      */
     private void setupUI(View rootView) {
-        MainActivity.tvHeader.setText("Add Patient");
+        //first set header
+        MainActivity.tvHeader.setText(Constants.ADD_PATIENT);
+
         rbMale = rootView.findViewById(R.id.rd_male);
         rgGender = rootView.findViewById(R.id.rd_gender);
         rbFemale = rootView.findViewById(R.id.rd_female);
@@ -127,29 +130,29 @@ public class AddPatientFragment extends Fragment {
     private boolean validate() {
         if(edtMobileNumber.getText().toString().length() <= 0){
             edtMobileNumber.setFocusable(true);
-            edtMobileNumber.setError("Please Enter Mobile Number");
+            edtMobileNumber.setError(Constants.ERR_MSG_MOBILE);
             return false;
         }else if(edtFirstName.getText().toString().length() <= 0){
             edtFirstName.setFocusable(true);
-            edtFirstName.setError("Please Enter First Name");
+            edtFirstName.setError(Constants.ERR_MSG_FIRST_NAME);
             return false;
         }else if(edtLastName.getText().toString().length() <= 0){
             edtLastName.setFocusable(true);
-            edtLastName.setError("Please Enter Last Name");
+            edtLastName.setError(Constants.ERR_MSG_LAST_NAME);
             return false;
         }else if(edtDOB.getText().toString().length() <= 0){
             edtDOB.setFocusable(true);
-            edtDOB.setError("Please Enter Date of Birth");
+            edtDOB.setError(Constants.ERR_MSG_DATE_OF_BIRTH);
             return false;
         }else if(edtPinPatient.getText().toString().length() <= 0){
             edtPinPatient.setFocusable(true);
-            edtPinPatient.setError("Please Enter Pin");
+            edtPinPatient.setError(Constants.ERR_MSG_PIN);
             return false;
         }else if(spnStatus.getSelectedItemPosition() == 0){
-            Toast.makeText(getActivity(), "Please select status", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), Constants.ERR_MSG_STATUS, Toast.LENGTH_SHORT).show();
             return false;
         }else if(spnBloodGroup.getSelectedItemPosition() == 0){
-            Toast.makeText(getActivity(), "Please Select Blood Group", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), Constants.ERR_MSG_BLOOD_GROUP, Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

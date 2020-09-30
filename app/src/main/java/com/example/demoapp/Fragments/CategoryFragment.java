@@ -11,6 +11,7 @@ import com.example.demoapp.Interfaces.RvClickListener;
 import com.example.demoapp.Adapters.CategoryListAdapter;
 import com.example.demoapp.SQLiteDatabase.DataBaseConstants;
 import com.example.demoapp.SQLiteDatabase.DataBaseHelper;
+import com.example.demoapp.Utils.Constants;
 import com.example.demoapp.Utils.Utils;
 
 import android.widget.Toast;
@@ -79,16 +80,15 @@ public class CategoryFragment extends Fragment implements RvClickListener {
             setupCategoryListAdapter(jsonArray);
         }else {
             rvCategories.setVisibility(View.GONE);
-            Toast.makeText(getActivity(), "No Categories found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), Constants.ERR_NO_CATEGORY_FOUND, Toast.LENGTH_SHORT).show();
         }
     }
 
     /**
      * set all the ui elements here
-     * @param rootView
      */
     private void setupUI(View rootView) {
-        MainActivity.tvHeader.setText("Categories");
+        MainActivity.tvHeader.setText(Constants.CATEGORY);
         rvCategories = rootView.findViewById(R.id.rv_categories);
         ivAddNewCategory = rootView.findViewById(R.id.iv_add_new_category);
     }
@@ -133,9 +133,9 @@ public class CategoryFragment extends Fragment implements RvClickListener {
      */
     @Override
     public void rv_click(int position, int value, String key) {
-        if (key.equals("edit")) {
+        if (key.equals(Constants.EDIT)) {
             editCategory(position);
-        } else if (key.equals("remove")) {
+        } else if (key.equals(Constants.REMOVE)) {
             removeCategory(position);
         }
     }
@@ -149,7 +149,7 @@ public class CategoryFragment extends Fragment implements RvClickListener {
         try{
             fragment = new EditCategoriesFragment();
             Bundle args = new Bundle();
-            args.putString("id",jsonArray.getJSONObject(position).getString("id"));
+            args.putString(Constants.ID,jsonArray.getJSONObject(position).getString(Constants.ID));
             fragment.setArguments(args);
             getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_right_in, R.anim.slide_left_out,
                     R.anim.slide_left_in, R.anim.slide_right_out).replace(R.id.container, fragment).addToBackStack(fragment.getClass().getName()).commit();
@@ -166,7 +166,7 @@ public class CategoryFragment extends Fragment implements RvClickListener {
     private void removeCategory(int position) {
         try {
             ContentValues contentValues = new ContentValues();
-            contentValues.put("is_deleted","Y");
+            contentValues.put(Constants.IS_DELETED,"Y");
             dataBaseHelper.updateTableData(DataBaseConstants.TableNames.TBL_CATEGORIES,contentValues,jsonArray.getJSONObject(position).getString("id"));
             getCategoryList();
         }catch (Exception e){

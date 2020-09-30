@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import com.example.demoapp.R;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.demoapp.Interfaces.RvClickListener;
+import com.example.demoapp.Utils.Constants;
 
 /**
  * created by ketan 29-9-2020
@@ -83,14 +84,14 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         holder.ivEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                rvClickListener.rv_click(position, position, "edit");
+                rvClickListener.rv_click(position, position, Constants.EDIT);
             }
         });
 
         holder.ivDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                rvClickListener.rv_click(position, position, "remove");
+                rvClickListener.rv_click(position, position, Constants.REMOVE);
             }
         });
     }

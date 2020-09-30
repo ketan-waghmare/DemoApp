@@ -18,6 +18,7 @@ import com.example.demoapp.Adapters.ProblemListAdapter;
 import com.example.demoapp.Interfaces.RvClickListener;
 import com.example.demoapp.R;
 import com.example.demoapp.SQLiteDatabase.DataBaseHelper;
+import com.example.demoapp.Utils.Constants;
 import com.example.demoapp.Utils.Utils;
 
 import org.json.JSONArray;
@@ -74,7 +75,7 @@ public class ProblemListingFragment extends Fragment{
             setProblemListAdapter(problemArray);
         }else {
             rvProblemsList.setVisibility(View.GONE);
-            Toast.makeText(getActivity(), "No Categories found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), Constants.NO_PROBLEMS_FOUND, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -83,7 +84,7 @@ public class ProblemListingFragment extends Fragment{
      * @param rootView
      */
     private void setupUI(View rootView) {
-        MainActivity.tvHeader.setText("Problems");
+        MainActivity.tvHeader.setText(Constants.PROBLEMS);
         rvProblemsList = rootView.findViewById(R.id.rv_problem);
         ivAddPatientProblem = rootView.findViewById(R.id.iv_add_problem);
     }

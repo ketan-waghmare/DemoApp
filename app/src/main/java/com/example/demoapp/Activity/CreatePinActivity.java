@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.demoapp.R;
 import com.example.demoapp.SQLiteDatabase.DataBaseConstants;
 import com.example.demoapp.SQLiteDatabase.DataBaseHelper;
+import com.example.demoapp.Utils.Constants;
 import com.example.demoapp.Utils.DTU;
 import com.example.demoapp.Utils.Utils;
 
@@ -93,7 +94,7 @@ public class CreatePinActivity extends AppCompatActivity {
                     if (validate())
                         createNewUser();
                 } else
-                    Toast.makeText(CreatePinActivity.this, "pin must be same", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreatePinActivity.this, Constants.ERR_MSG_PIN_MUST_SAME, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -117,33 +118,36 @@ public class CreatePinActivity extends AppCompatActivity {
     private boolean validate() {
         if(edtMobileNumber.getText().toString().length() <= 0){
             edtMobileNumber.setFocusable(true);
-            edtMobileNumber.setError("Please Enter Mobile Number");
+            edtMobileNumber.setError(Constants.ERR_MSG_MOBILE);
             return false;
         }else if(edtFirstName.getText().toString().length() <= 0){
             edtFirstName.setFocusable(true);
-            edtFirstName.setError("Please Enter First Name");
+            edtFirstName.setError(Constants.ERR_MSG_FIRST_NAME);
             return false;
         }else if(edtLastName.getText().toString().length() <= 0){
             edtLastName.setFocusable(true);
-            edtLastName.setError("Please Enter Last Name");
+            edtLastName.setError(Constants.ERR_MSG_LAST_NAME);
             return false;
         }else if(edtDateOfBirth.getText().toString().length() <= 0){
             edtDateOfBirth.setFocusable(true);
-            edtDateOfBirth.setError("Please Enter Date of Birth");
+            edtDateOfBirth.setError(Constants.ERR_MSG_DATE_OF_BIRTH);
             return false;
         }else if(edtEnterPin.getText().toString().length() <= 0){
             edtEnterPin.setFocusable(true);
-            edtEnterPin.setError("Please Enter Pin");
+            edtEnterPin.setError(Constants.ERR_MSG_PIN);
             return false;
         }else if(edtConfirmPin.getText().toString().length() <= 0){
             edtConfirmPin.setFocusable(true);
-            edtConfirmPin.setError("Please Enter Confirm Pin");
+            edtConfirmPin.setError(Constants.ERR_MSG_CONFIRM_PIN);
             return false;
         }else if(spnStatus.getSelectedItemPosition() == 0){
-            Toast.makeText(context, "Please select status", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, Constants.ERR_MSG_STATUS, Toast.LENGTH_SHORT).show();
             return false;
         }else if(spnBloodGroup.getSelectedItemPosition() == 0){
-            Toast.makeText(context, "Please Select Blood Group", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, Constants.ERR_MSG_BLOOD_GROUP, Toast.LENGTH_SHORT).show();
+            return false;
+        }else if(rgGender.getCheckedRadioButtonId() == -1){
+            Toast.makeText(context,Constants.ERR_MSG_GENDER,Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

@@ -17,6 +17,7 @@ import com.example.demoapp.Activity.MainActivity;
 import com.example.demoapp.R;
 import com.example.demoapp.SQLiteDatabase.DataBaseConstants;
 import com.example.demoapp.SQLiteDatabase.DataBaseHelper;
+import com.example.demoapp.Utils.Constants;
 import com.example.demoapp.Utils.Utils;
 
 /**
@@ -24,10 +25,12 @@ import com.example.demoapp.Utils.Utils;
  */
 public class AddCategoriesFragment extends Fragment {
 
+    //region variables
     private Spinner spnStatus;
     private Button btnAddCategory;
     private EditText edtCategoryName;
     private DataBaseHelper dataBaseHelper;
+    //endregion
 
     public static AddCategoriesFragment newInstance() {
         AddCategoriesFragment fragment = new AddCategoriesFragment();
@@ -63,7 +66,7 @@ public class AddCategoriesFragment extends Fragment {
      * @param rootView
      */
     private void setupUI(View rootView) {
-        MainActivity.tvHeader.setText("Add Categories");
+        MainActivity.tvHeader.setText(Constants.ADD_CATEGORIES);
         spnStatus = rootView.findViewById(R.id.spn_status_category);
         btnAddCategory = rootView.findViewById(R.id.btn_add_category);
         edtCategoryName = rootView.findViewById(R.id.edt_category_name);
