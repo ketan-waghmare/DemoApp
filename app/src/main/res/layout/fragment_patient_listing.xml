@@ -38,8 +38,9 @@
                     android:id="@+id/edt_created_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/text_created_date"
+                    android:hint="@string/text_created_date"
                     android:editable="false"
+                    android:padding="5dp"
                     android:textSize="15sp"
                     android:background="@drawable/round_edittext"/>
 
@@ -56,8 +57,9 @@
                     android:id="@+id/edt_date_of_birth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Date Of Birth"
+                    android:hint="Date Of Birth"
                     android:textSize="15sp"
+                    android:padding="5dp"
                     android:editable="false"
                     android:background="@drawable/round_edittext"/>
 

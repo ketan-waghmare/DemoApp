@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.example.demoapp.Interfaces.RvClickListener;
 import com.example.demoapp.R;
 import com.example.demoapp.SQLiteDatabase.DataBaseConstants;
 import com.example.demoapp.SQLiteDatabase.DataBaseHelper;
+import com.example.demoapp.Utils.DTU;
 import com.example.demoapp.Utils.Utils;
 
 import org.json.JSONArray;
@@ -84,6 +86,7 @@ public class PatientListingFragment extends Fragment implements RvClickListener 
      */
     private void getPatientListFromDB() {
         patientArray = dataBaseHelper.getPatientListFromDB();
+        Log.e("patient_array_log"," = "+patientArray);
         if(patientArray != null && patientArray.length() > 0){
             rvPatients.setVisibility(View.VISIBLE);
             setPatientListAdapter(patientArray);
@@ -103,6 +106,7 @@ public class PatientListingFragment extends Fragment implements RvClickListener 
         rvPatients = rootView.findViewById(R.id.rv_patients);
         edtCreatedDate = rootView.findViewById(R.id.edt_created_date);
         edtDateOfBirth = rootView.findViewById(R.id.edt_date_of_birth);
+        edtFirstName = rootView.findViewById(R.id.edt_first_name_filter);
         ivAddNewPatient = rootView.findViewById(R.id.iv_add_new_patient);
     }
 
@@ -122,13 +126,34 @@ public class PatientListingFragment extends Fragment implements RvClickListener 
                 addNewPatient();
             }
         });
+
+        edtDateOfBirth.setOnClickListener(view -> {
+            showDatePicker(edtDateOfBirth);
+        });
+
+        edtCreatedDate.setOnClickListener(view -> {
+            showDatePicker(edtCreatedDate);
+        });
+    }
+
+    /**
+     * show date picker dialog to user for selecting the date
+     */
+    private void showDatePicker(EditText edtTextDate) {
+        DTU.showDatePickerDialog(getActivity(), DTU.FLAG_OLD_AND_NEW, edtTextDate);
     }
 
     /**
      * filter the list of patients as per user input
      */
     private void filterPatients() {
-
+        try {
+            patientArray = dataBaseHelper.getFilteredList(edtFirstName.getText().toString(),edtCreatedDate.getText().toString(),edtDateOfBirth.getText().toString());
+            Log.e("filterArray_log"," = "+patientArray);
+            setPatientListAdapter(patientArray);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     /**

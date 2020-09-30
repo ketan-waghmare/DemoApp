@@ -179,7 +179,7 @@ public class CreatePinActivity extends AppCompatActivity {
         contentValues.put(DataBaseConstants.Constants_TBL_PATIENTS.BLOOD_GROUP, spnBloodGroup.getSelectedItem().toString().trim());
         contentValues.put(DataBaseConstants.Constants_TBL_PATIENTS.IS_DELETED, "N");
         contentValues.put(DataBaseConstants.Constants_TBL_PATIENTS.MOBILE_NUMBER, edtMobileNumber.getText().toString());
-        contentValues.put(DataBaseConstants.Constants_TBL_CATEGORIES.CREATE_DATE, Utils.getCurrentDateTime(Utils.MM_DD_YYY_HH_MM));
+        contentValues.put(DataBaseConstants.Constants_TBL_CATEGORIES.CREATE_DATE, Utils.getCurrentDateTime(Utils.DD_MM_YYYY));
 
         dataBaseHelper.saveToLocalTable(DataBaseConstants.TableNames.TBL_PATIENTS, contentValues);
         context.startActivity(new Intent(CreatePinActivity.this, LoginActivity.class));

@@ -106,7 +106,7 @@ public class AddCategoriesFragment extends Fragment {
         contentValues.put(DataBaseConstants.Constants_TBL_CATEGORIES.IS_DELETED,"N");
         contentValues.put(DataBaseConstants.Constants_TBL_CATEGORIES.STATUS,spnStatus.getSelectedItem().toString());
         contentValues.put(DataBaseConstants.Constants_TBL_CATEGORIES.NAME,edtCategoryName.getText().toString().trim());
-        contentValues.put(DataBaseConstants.Constants_TBL_CATEGORIES.CREATE_DATE, Utils.getCurrentDateTime(Utils.MM_DD_YYY_HH_MM));
+        contentValues.put(DataBaseConstants.Constants_TBL_CATEGORIES.CREATE_DATE, Utils.getCurrentDateTime(Utils.DD_MM_YYYY));
 
         dataBaseHelper.saveToLocalTable(DataBaseConstants.TableNames.TBL_CATEGORIES,contentValues);
 

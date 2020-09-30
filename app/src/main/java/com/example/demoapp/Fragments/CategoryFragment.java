@@ -142,6 +142,7 @@ public class CategoryFragment extends Fragment implements RvClickListener {
 
     /**
      * edit the category
+     * send the category id to the Edit category screen
      * @param position
      */
     private void editCategory(int position) {

@@ -117,7 +117,7 @@ public class AddPatientProblemFragment extends Fragment {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DataBaseConstants.Constants_TBL_PATIENT_PROBLEMS.IS_DELETED, "N");
         contentValues.put(DataBaseConstants.Constants_TBL_PATIENT_PROBLEMS.PROBLEM, edtPatientProblem.getText().toString());
-        contentValues.put(DataBaseConstants.Constants_TBL_PATIENT_PROBLEMS.CREATE_DATE, Utils.getCurrentDateTime(Utils.MM_DD_YYY_HH_MM));
+        contentValues.put(DataBaseConstants.Constants_TBL_PATIENT_PROBLEMS.CREATE_DATE, Utils.getCurrentDateTime(Utils.DD_MM_YYYY));
         contentValues.put(DataBaseConstants.Constants_TBL_PATIENT_PROBLEMS.STATUS, spnStatusPatientProblem.getSelectedItem().toString().trim());
         if (!preferences.getString(DataBaseConstants.Constants_TBL_PATIENTS.ID, "").equals(""))
             contentValues.put(DataBaseConstants.Constants_TBL_PATIENT_PROBLEMS.PATIENT_ID, preferences.getString(DataBaseConstants.Constants_TBL_PATIENTS.ID, ""));

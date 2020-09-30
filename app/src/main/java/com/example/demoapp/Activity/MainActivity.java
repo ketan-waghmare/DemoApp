@@ -56,21 +56,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setNavigationDrawerSelection();
     }
 
+    /**
+     * set up all the UI elements of the screen
+     */
     private void setupUI() {
         toolbar = findViewById(R.id.toolbar);
         tvHeader = findViewById(R.id.tv_header);
+
+        //UI elements related to navigation drawer
+        setSupportActionBar(toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
     }
 
+    /**
+     * show default fragment in the container
+     */
     private void defaultFragment() {
-        Utils.replaceFragment(context,new CategoryFragment());
+        Utils.replaceFragment(context, new CategoryFragment());
     }
 
+    /**
+     * set the navigation drawer selection listener
+     */
     private void setNavigationDrawerSelection() {
         toolbar.setTitle("");
-        setSupportActionBar(toolbar);
 
         drawer.addDrawerListener(toggle);
         toggle.syncState();
@@ -78,24 +89,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    /**
+     * handle the navigation item selected listener
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        Fragment fragment = null;
         switch (menuItem.getItemId()) {
             case R.id.categories:
-                Utils.replaceFragment(context,new CategoryFragment());
+                Utils.replaceFragment(context, new CategoryFragment());
                 break;
 
             case R.id.manage_patients:
-                Utils.replaceFragment(context,new PatientListingFragment());
+                Utils.replaceFragment(context, new PatientListingFragment());
                 break;
 
             case R.id.add_new_patients:
-                Utils.replaceFragment(context,new ProblemListingFragment());
+                Utils.replaceFragment(context, new ProblemListingFragment());
                 break;
 
             case R.id.change_pin:
-                Utils.replaceFragment(context,new ChangePinFragment());
+                Utils.replaceFragment(context, new ChangePinFragment());
                 break;
 
             case R.id.logout:
@@ -110,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * handle the logout action
      */
     private void doLogout() {
-        context.startActivity(new Intent(MainActivity.this,LoginActivity.class));
+        context.startActivity(new Intent(MainActivity.this, LoginActivity.class));
         finishAffinity();
     }
 
@@ -122,64 +135,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onBackPressed() {
         super.onBackPressed();
         String tag = getCurrentFragment();
-        Log.e("Fragment_Tag_Log", ":" + tag + "   :   " + CategoryFragment.class.getName());
         int count = getSupportFragmentManager().getBackStackEntryCount();
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
 
-        if (tag != null && tag.equals(CategoryFragment.class.getName())) {
+        if(tag == null && count == 0){
+            defaultFragment();
+        }else if (tag != null && tag.equals(CategoryFragment.class.getName())) {
             defaultFragment();
         } else if (tag != null && tag.equals(ProblemListingFragment.class.getName())) {
             getFragmentManager().popBackStack();
-        }else if(tag != null && tag.equals(EditPatientFragment.class.getName())){
+        } else if (tag != null && tag.equals(EditPatientFragment.class.getName())) {
             getFragmentManager().popBackStack();
-        }else if(tag != null && tag.equals(PatientListingFragment.class.getName())){
+        } else if (tag != null && tag.equals(PatientListingFragment.class.getName())) {
             getFragmentManager().popBackStack();
-        }else if(tag != null && tag.equals(ChangePinFragment.class.getName())){
+        } else if (tag != null && tag.equals(ChangePinFragment.class.getName())) {
             getFragmentManager().popBackStack();
-        }else if(tag != null && tag.equals(ProblemListingFragment.class.getName())){
+        } else if (tag != null && tag.equals(ProblemListingFragment.class.getName())) {
             getFragmentManager().popBackStack();
         } else if (tag != null && tag.equals(CategoryFragment.class.getName())) {
-            new AlertDialog.Builder(this)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setTitle("Exit App")
-                    .setMessage("Do you want to exit?")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finishAffinity();
-                        }
-                    })
-                    .setNegativeButton("No", null)
-                    .show();
+            showAlerDialog();
         } else {
             if (fragment instanceof CategoryFragment) {
-                new AlertDialog.Builder(this)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle("Exit App")
-                        .setMessage("Do you want to exit? ")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finishAffinity();
-                            }
-                        })
-                        .setNegativeButton("No", null)
-                        .show();
+                Utils.replaceFragment(context,new CategoryFragment());
             } else {
                 if (count == 1) {
-                    new AlertDialog.Builder(this)
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .setTitle("Exit App")
-                            .setMessage("Do you want to exit? ")
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    finishAffinity();
-                                }
-                            })
-                            .setNegativeButton("No", null)
-                            .show();
-                } else {
+                    showAlerDialog();
+                } else{
                     getSupportFragmentManager().popBackStack();
                 }
             }
@@ -187,7 +168,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     /**
+     * show exit dialog for exiting from the app
+     */
+    private void showAlerDialog() {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Exit App")
+                .setMessage("Do you want to exit?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finishAffinity();
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
+
+    /**
      * get the current fragment from the stack
+     *
      * @return
      */
     private String getCurrentFragment() {

@@ -29,7 +29,7 @@ public class Utils {
 
     public static String PREFERENCE_USER = "user";
 
-    public static final String MM_DD_YYY_HH_MM = "MM/dd/yyyy HH:mm";
+    public static final String DD_MM_YYYY = "dd-MM-yyyy";
 
     public static String getCurrentDateTime(String format) {
         DateFormat dateFormatter = new SimpleDateFormat(format);
